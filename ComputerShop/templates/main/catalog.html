@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div style="display: flex; flex-direction: column;">
+        <div class="main-block">
+        <div class="filters-border">
+            <div style="display: flex;">
+                <div class="filters-active">
+
+                </div>
+                <div class="filters-selector">
+
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="{% static 'core/js/filter-script.js'%}"></script>
+        
+        <div class="products">
+            <div class="products-inner">
+                    {% for product in products %}
+                    <div class="product">
+                        <div class="image-container">
+                            <img src="{% static 'core\images\2.png' %}" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-info-inner">
+                                <h2 class="product-name">{{ product.name }}</h2>
+                                <p class="product-text">{{ product.characteristics }}</p>
+                                {% if product.is_available %}
+                                <p class="in-stock">In Stock</p>
+                                <p class="price-available price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                                <button class="buy-btn">Buy this</button>
+                                {% else %}
+                                <p class="out-of-stock">Out of stock</p>
+                                <p class="price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                                <button class="buy-btn buy-off">Buy this</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% if products %}
+                    <nav class="pages">
+                        <ul class="pagination justify-content-center">
+                            {% if selected_page != None and selected_page > 1 %}
+                            <li class="page-item"><a href="?page={{ selected_page|add:-1 }}" name="page-button" class="page-link" style="color: #6c757d;">Prev</a></li>
+                            {% endif %}
+                            {% for page in pages %}
+                            {% if q %}
+                            <li class="page-item"><a href="{% url 'index' %}?q={{ q }}&page={{ page }}" name="page-button" class="page-link" style="color: #6c757d;">{{ page }}</a></li>
+                            {% else %}
+                            <li class="page-item"><a href="{% url 'index' %}?page={{ page }}" name="page-button" class="page-link" style="color: #6c757d;">{{ page }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if selected_page < pages|length %}
+                            <li class="page-item"><a href="?page={{ selected_page|add:1 }}" name="page-button" class="page-link" style="color: #6c757d;">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% else %}
+                    <p>Sorry. There is nothing</p>
+                    {% endif %}
+            </div>
+        </div>
+</div>
+{% endblock %}

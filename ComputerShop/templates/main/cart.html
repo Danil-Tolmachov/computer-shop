@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-block">
+
+
+    <div class="products-inner" style="border-top-left-radius: 12px;">
+        <div class="cart-title">
+            Cart
+        </div>
+        {% if cart %}
+        {% for product in cart %}
+        <div class="cart-product">
+            <div class="image-cart-container">
+                <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\2.png' %}" class="product-cart-img"></a>
+            </div>
+            <div class="product-cart-info">
+                <div class="product-cart-info-inner">
+                    <a href="{% url 'product' product.pk %}" class="link text"><h2 class="product-cart-name">{{ product.name }}</h2></a>
+                    {% if product.is_available %}
+                    <p class="in-stock in-stock-cart">In Stock</p>
+                    <p class="price-available-cart price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                    {% else %}
+                    <p class="out-of-stock">Out of stock</p>
+                    <p class="price-cart"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="cart-product-interact">
+                <input class="product-cart-count" type="number">
+                <button class="fa-solid fa-xmark del-item-cart" id="5"></button>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="nothing">
+            <p class="text">Nothing in the cart</p>
+            <i class="fa-solid fa-ban"></i>
+        </div>
+        {% endif %}
+        <div class="checkout-detail">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

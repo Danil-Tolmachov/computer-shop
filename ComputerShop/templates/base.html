@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Nunito&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6fbd114e5d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'core/js/ajax.js' %}"></script>
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% block nav %}
+    <nav>
+        <ul id="nav">
+            <div class="dropdown" id="catalog">
+                <li ><a id="catalog-btn" style="transition: 0.4s;">Catalog</a></li>
+                <div class="space" style="height: 20px;"></div>
+                <div class="dropdown-content cat" id="dropdown-cont">
+                    {% for cat in categories %}
+                    <a href="{% url 'catalog' cat.category_slug %}">{{ cat.category_name }}</a>
+                    {% endfor %}
+                </div>
+                <script type="text/javascript" src="{% static 'core/js/nav-script.js' %}"></script>
+            </div>
+            <li id="nav-hr"><hr></li>
+            <li><a href="{% url 'index' %}">Main Page</a></li>
+            <li><a href="{% url 'about_us' %}">About Us</a></li>
+            <li class="right-side-nav"><input type="text" name="search" placeholder="&#xF002" id="search"></li>
+            <div class="dropdown"  id="account">
+                {% if user_name == "AnonymousUser" %}
+                <li class="right-side-nav dropbtn"><a class="user-name">Account<span><i class="fa-solid fa-arrow-turn-down"></i></span></a></li>
+                {% else %}
+                <li class="right-side-nav dropbtn"><a><p class="user-name">{{ user_name }}<span><i class="fa-solid fa-arrow-turn-down"></i></span></p></a></li>
+                {% endif%}
+                <div class="space"></div>
+                <div class="dropdown-content">
+                    <a href="{% url 'account' %}">My Account</a>
+                    <hr>
+                    {% if user_name == "AnonymousUser" %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Sign on</a>
+                    {% else %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                    {% endif%}
+                </div>
+            </div>
+            {% if title != 'Cart' %}
+            <div class="dropdown right-side-nav">
+                <li><a id="cart" href="{% url 'cart' %}"><i class="fa-solid fa-cart-flatbed" ></i></a></li>
+                <div class="space" style="right: 70px; width: 70px; float: right;"></div>
+                <div class="dropdown-content cart-items" style="left: -263px;">
+                    {% csrf_token %}
+                    {% if cart %}
+                    {% for item in cart %}
+                    <div class="cancel"><a href="{% url 'product' item.pk %}">{{ item.name }}</a><button class="fa-solid fa-xmark del-item" id="{{ item.pk }}"></button></div>
+                    {% endfor %}
+                    {% endif %}
+                    <hr style="width: 300px;">
+                    <a href="{% url 'cart' %}">Checkout</a>
+                </div>
+            </div>
+            {% endif%}
+        </ul> 
+    </nav>
+    {% endblock %}
+
+    {% block main %}
+    {% endblock %}
+        
+        <footer>
+        <h1>ComputerShop inc.</h1>
+        <p>All rights reserved</p>
+        </footer>
+</body>
+</html>

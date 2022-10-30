@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="login-container">
+    <div class="login-content">
+        <label class="text">Sign on</label>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for field in form %}
+            {{ field }}
+            <div class="form-error">{{ field.errors }}</div>
+            {% endfor %}
+            <button type="submit" class="reg-button text">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

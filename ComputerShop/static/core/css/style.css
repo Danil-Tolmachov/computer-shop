@@ -1,0 +1,1124 @@
+body {
+	margin: 10px;
+	margin-top: 5px;
+	background: lightblue;
+}
+
+.link {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+/* ----------------Nav---------------- */
+nav {
+	position: sticky;
+	top: 5px;
+	z-index: 10000;
+	min-width: 1300px;
+}
+
+nav li {
+  	float: left;
+  	text-align: center;
+}
+
+nav li hr {
+	border-top: none;
+	border-left: 1px;
+	border-radius: 2px;
+	border-width: 2px;
+	height: 45px;
+
+	position: relative;
+	top: 2px;
+
+	display: table-cell;
+	vertical-align: middle;
+}
+
+nav ul {
+	margin: auto;
+	list-style-type: none;
+  	margin: 0;
+  	padding: 10px;
+	background: #101010e0;
+	backdrop-filter: blur(25px);
+	border-radius: 38px;
+	height: 50px;
+}
+
+nav li a {
+	width: 200px;
+	height: 50px;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 33px;
+
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+
+	color: #EFF1EC;
+	text-decoration: none;
+}
+
+nav li a:hover {
+	background: #585858;
+	border-radius: 36px;
+	transition: 0.5s;
+}
+
+nav li a span {
+	margin-left: 10px;
+	font-size: 20px;
+	display: inline-block;
+	vertical-align: middle;
+	height: 40%;
+
+}
+
+nav li input {
+	width: 300px;
+	height: 50px;
+	
+	background: #FFFFFE/*rgba(240, 240, 229, 0.39)*/;
+	backdrop-filter: blur(45px);
+	border: none;
+	border-radius: 26px;
+	transition: 0.2s;
+}
+
+nav li input::placeholder {
+	
+	padding-left: 16px;
+	color: rgba(51, 51, 51, 0.88);
+}
+
+
+nav li input:focus::placeholder {
+	color: transparent;
+	background: transparent;
+	transition: 0.3s;
+}
+
+nav li input:focus {
+	width: 350px;
+	transition: 0.3s;
+}
+
+.right-side-nav {
+	float: right;
+	
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.dropbtn {
+	cursor: pointer;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+	overflow: visible;
+
+	
+
+	animation: growDown 300ms ease-in-out forwards;
+    transform-origin: top center;
+}
+
+.dropdown-content {
+	opacity: 0;
+	visibility:hidden;
+  	width: 200px;
+  	padding: 10px;
+  	padding-top: 4px;
+
+  	position: absolute;
+  	top: 60px;
+  	left: -10px;
+  	z-index: 0;
+
+  	background-color: #191919e0;
+  	border-bottom-right-radius: 32px;
+  	border-bottom-left-radius: 32px;
+}
+
+.dropdown .space {
+	top: 50px;
+	position: relative;
+	width: 200px;
+	height: 10px;
+}
+
+.dropdown-content a {
+	margin-top: 2px;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-size: 17px;
+	color: #EFF1EC;
+  	text-decoration: none;
+  	display: block;
+  	height: 50px;
+  	line-height: 50px;
+
+  	text-align: center;
+}
+
+.dropdown-content a:hover {
+	background: #585858;
+	border-radius: 36px;
+	transition: 0.4s;
+}
+.dropdown-content hr {
+	border-color: #b4b4b4e0;
+	border-radius: 2px;
+}
+
+.user-name {
+	line-height: 50px;
+	max-width: 200px;
+	margin: 0px;
+	height: 50px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.dropdown:hover .dropdown-content {
+	opacity: 1;
+	visibility: visible;
+	transition: 0.25s;
+}
+
+.nothing {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 100px;
+}
+
+.nothing i {
+	font-size: 72px;
+	color: #767676;
+}
+
+.cart-items {
+	min-width: 300px;
+}
+
+.cart-items div {
+}
+
+.cancel button {
+	height: 50px;
+	width: 50px;
+
+	top: 5px;
+
+	position: relative;
+	display: inline-block;
+
+	font-size: 28px;
+
+	border: none;
+	color: #eff1ec;
+	background-color: transparent;
+}
+
+.cancel button:hover {
+	background: #585858;
+	border-radius: 36px;
+	transition: 0.4s;
+	opacity: 0.5;
+}
+
+.cancel button::first-child {
+	margin-top: 2px;
+}
+
+.cancel a {
+	display: inline-block;
+
+	width: 250px;
+}
+
+.item-delete-transition {
+	transition: 2.5s;
+	height: 0px;
+}
+
+#nav-hr {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#dropdown-cont {
+	border-top-left-radius: 38px;
+}
+
+#search::placeholder {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
+#account {
+
+	float: right;
+}
+
+#search {
+	margin-left: 20px;
+}
+
+#cart {
+	color: #EFF1EC;
+	width: 50px;
+}
+
+#catalog {
+	float: left;	
+}
+
+#catalog:hover ~ #nav {
+	border-bottom-left-radius: 0px;
+}
+
+#catalog-btn:hover {
+	color: cyan;
+	transition: color 1s;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+/* ----------------/Nav/---------------- */
+
+/* ----------------Main Content---------------- */
+.main-block {
+	position: relative;
+
+	margin: 20px;
+	min-width: 1280px;
+	min-height: 600px;
+
+	/*background-color: white;
+	border-radius: 12px;*/
+
+	padding: 10px;
+	z-index: 2;
+}
+
+.main {
+	margin: 30px;
+	padding: 20px;
+
+	background-color: white;
+	border-radius: 12px;
+
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+}
+
+
+
+.filters-border {
+	width: 25.75%;
+	min-width: 20%;
+	min-height: 600px;
+	height: 700px;
+
+	background-color: #ffffff;
+	border-top-left-radius: 12px;
+	border-bottom-left-radius: 12px;
+	
+	display: inline-block;
+
+	position: sticky;
+	top: 83px; 
+
+	transition: 0.2s;
+}
+
+.filters-active {
+	position: absolute;
+
+	width: 94%;
+	height: 24%;
+
+	margin: 3%;
+
+	background-color: #e1e1e1;
+	border-radius: 12px;
+}
+
+.filters-selector {
+	position: absolute;
+	bottom: 0px;
+
+	width: 94%;
+	height: 71%;
+
+	margin: 3%;
+
+	background-color: #f0f0f0;
+	border-radius: 12px;
+}
+
+.filters-border-triggered {
+	margin-right: 0.15%;
+
+	width: 25.35%;
+
+	border-radius: 12px;
+	transition: 0.2s;
+}
+
+
+.products {
+	float: right;
+
+	width: 74.25%;
+	height: 100%;
+}
+
+.products-index{
+    float: right;
+    height: 100%;
+}    
+
+.products-inner {
+	min-height: 680px;
+
+	background-color: white;
+	border-radius: 12px;
+	border-top-left-radius: 0px;
+	padding: 10px;
+
+	transition: 0.1s;
+}
+
+.product {
+	height: 220px;
+
+	border-radius: 10px;
+	background-color: #f0f0f0;
+
+	margin-top: 10px;
+}
+
+.product:first-child {
+	margin-top: 0px;
+}
+
+.image-container {
+	display: inline-block;
+
+	width: 25%;
+}
+
+.product-img {
+	margin: 10px;
+
+	max-height: 200px;
+	max-width: 280px;
+}
+
+.product-info {
+	display: inline-block;
+
+	float: right;
+	width: 75%;
+	height: 220px;
+
+}
+
+.product-info-inner {
+	position: relative;
+	height: 180px;
+	padding: 20px;
+
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 800;
+	font-size: 17px;
+}
+
+.product-name {
+	margin-top: 5px;
+}
+
+.price {
+	position: absolute;
+
+	margin: 0px;
+	width: 200px;
+	height: 40px;
+
+	right: 220px;
+	bottom: 20px;	
+
+	padding-right: 20px;
+	line-height: 40px;
+
+	color: #797979;
+
+	text-align: right;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+}
+
+.price-available {
+	color: #232323;
+}
+
+.price span {
+	margin-right: 2px;
+	font-size: 18px;
+}
+
+.out-of-stock {
+	position: absolute;
+
+
+	width: 120px;
+	height: 30px;
+	bottom: 5px;
+
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 17px;
+
+	text-align: center;
+	line-height: 30px;
+
+	color: #ce6c6c;
+	border-radius: 14px;
+	background-color: #ffb4b4;
+
+}
+
+.in-stock {
+	position: absolute;
+
+	width: 120px;
+	height: 30px;
+	bottom: 5px;
+
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 17px;
+
+	text-align: center;
+	line-height: 30px;
+
+	color: #57b83e;
+	border-radius: 14px;
+	background-color: #bbffb4;
+}
+
+.buy-btn {
+	position: absolute;
+
+	width: 200px;
+	height: 40px;
+
+	right: 20px;
+	bottom: 20px;
+
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 17px;
+
+	border: none;
+	border-radius: 24px;
+
+	color: #d5d5d5;
+	background-color: #333333;
+	transition: 0.10s;
+}
+
+.buy-btn:hover {
+	color: #2f2f2f;
+	background-color: #333333e0;
+	cursor: pointer;
+}
+
+.buy-off {
+	color: #818181;
+	background-color: #bdbdbd
+}
+
+.buy-off:hover {
+	color: #818181;
+	background-color: #a7a7a7
+}
+
+.pages {
+	position: relative;
+	min-width: 60px;
+
+	justify-content: center;
+	align-items: center;
+
+	margin: 10px;
+}
+
+.pages ul a {
+	min-width: 50px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: auto;
+	
+
+}
+
+.pages ul {
+	background-color: #333333;
+	display: block;
+  	vertical-align: middle;
+  	margin: auto;
+  	width: fit-content;
+}
+
+/* ----------------/Main Content/---------------- */
+
+/* ----------------Footer---------------- */
+footer {
+	position: relative;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+
+	width: 100%;
+    height: 100px;s
+    position: relative;
+
+    padding-top: 20px;
+
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+
+	z-index: 1;
+}
+
+footer h1 {
+	color: #5c5c5c;
+	font-size: 18px;
+	text-align: center;
+
+	margin-bottom: 5px;
+}
+
+footer p {
+	color: #5c5c5c;
+	font-size: 12px;
+	text-align: center;
+
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+/* ----------------/Footer/---------------- */
+
+/* ----------------ProductPage---------------- */
+
+.vertical-flex {
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+}
+
+.horizontal-flex {
+	display: flex;
+	flex-direction: row;
+
+	height: 100%;
+}
+
+.main-container {
+	display: flex;
+	position: relative;
+
+	gap: 15px;
+
+    margin: 20px;
+
+    min-width: 1280px;
+    min-height: 600px;
+}
+
+.product-info-cont {
+	width: 79.5%;
+}
+
+.product-additional {
+	width: 19.5%;
+}
+
+.product-container {
+	height: 600px;
+
+	border-radius: 12px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+	border-top-left-radius: 24px;
+	background-color: white;
+}
+
+.specifications {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	min-height: 200px;
+
+	border-radius: 12px;
+	background-color: white;
+}
+
+.comments {
+	min-height: 200px;
+
+	border-radius: 12px;
+	background-color: white;
+}
+
+.stores {
+	height: 300px;
+
+	border-radius: 12px;
+	background-color: white;
+}
+
+.resents{
+	margin-top: 10px;
+	height: 710px;
+
+	border-radius: 12px;
+	background-color: white;
+}
+
+
+
+
+.detail-info {
+	width: 60%;
+
+	justify-content: left;
+}
+
+.detail-product-name {
+	max-width: 100%;
+	max-height: 25%;
+
+	margin: 30px;
+	margin-bottom: 10px;
+
+	font-size: 32px;
+	font-weight: 900;
+
+	color: #4b4b4b;
+	font-family: 'Source Sans Pro', sans-serif;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: left;
+	vertical-align: top;
+}
+
+.detail-product-text-container {
+	width: 100%;
+	height: 65%;
+
+	overflow: hidden;
+
+}
+
+.detail-product-text {
+	height: 100%;
+	padding: 10px;
+	padding-left: 30px;
+
+	font-size: 17px;
+	overflow: scroll;
+
+	font-weight: 400;
+
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+.detail-product-short-specs {
+	width: 100%;
+	height: 18.25%;
+	bottom: 0;
+	overflow: hidden;
+
+	color: #4b4b4b;
+	font-size: 17px;
+	font-weight: 400;
+
+	font-family: 'Cabin', sans-serif;
+}
+
+.detail-product-short-specs div {
+	margin-left: 20px;
+	padding: 10px;
+}
+
+.detail-product-buttons-container {
+	width: 100%;
+}
+
+.detail-product-buttons {
+	width: 98%;
+	height: 81%;
+
+	margin: 1%;
+
+	border-radius: 46px;
+	background-color: #eeeeee;
+
+	display: flex;
+	justify-content: center;
+}
+
+.detail-product-image-carousel {
+	max-width: 40%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	border-top-left-radius: 24px;
+	border-bottom-right-radius: 24px;
+	background-color: #eeeeee;
+}
+
+.carousel-content {
+	width: auto;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+
+	display: flex;
+	justify-content: flex-start;
+	
+
+	list-style-type: none;
+	overflow: hidden;
+}
+
+.carousel-item {	
+	display: block;
+	position: absolute;
+	text-align: center;
+
+	flex: 0 0 auto;
+	width: 100%;
+
+	opacity: 0;
+}
+
+.carousel-item:last-child {
+	position: relative;
+}
+
+.carousel-image {
+	max-width: 100%;
+
+	pointer-events: none;
+	display: block;
+}
+
+.carousel-arrow {
+	position: absolute;
+
+	height: 100%;
+	width: 15%;
+
+	color: white;
+	font-size: 40px;
+
+	opacity: 0;
+	transition: 0.1s;
+
+	border: none;
+	background-color: transparent;
+}
+
+.carousel-arrow-left {
+	left: 0;
+}
+
+.carousel-arrow-right {
+	right: 0;
+}
+
+.carousel-arrow-left i {
+	text-shadow: 0 0 5px #0000003d;
+	transform: rotate(-90deg);
+}
+
+.carousel-arrow-right i {
+	text-shadow: 0 0 5px #0000003d;
+	transform: rotate(90deg);
+}
+
+.carousel-arrow:hover {
+	opacity: 1;
+	transition: 0.2s;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+  height: 0;
+}
+
+.scroll {
+	position: sticky;
+	z-index: 10;
+}
+
+.scroll::-webkit-scrollbar-track  {
+	padding: 5px;
+	background-color: transparent;
+}
+
+.scroll::-webkit-scrollbar-thumb  {
+	padding: 0 2px;
+  	border-right:3px solid transparent;
+  	border-left:3px solid transparent;
+
+  	background-color: transparent;
+  	background-clip: padding-box;
+  	border-radius: 50px;
+
+  	opacity: 0;
+	background-clip: padding-box;
+	transition: 5s;
+}
+
+.scroll:hover::-webkit-scrollbar-thumb  {
+	opacity: 1;
+	background-color: #b5b5b5;
+	transition: 5s;
+}
+
+.stores {
+
+}
+
+.stores-available {
+	background-color: #bbffb4;
+}
+
+.stores-notavailable {
+
+}
+
+/* ----------------/ProductPage/---------------- */
+
+
+/* ----------------LoginPage---------------- */
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-top: 20px;
+	width: 100%;
+	height: 700px;
+}
+
+.login-content {
+	width: 450px;
+	height: 650px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	border-radius: 36px;
+	background-color: white;
+}
+
+.reg-button {
+	width: 200px;
+	height: 35px;
+
+	margin: auto;
+	margin-top: 40px;
+	display: block;
+
+	border-color: transparent;
+	border-radius: 20px;
+	background-color: #c6d1d0;
+}
+
+.field {
+	width: 280px;
+	height: 35px;
+
+	margin: 7px;
+	padding-left: 10px;
+	padding-right: 10px;
+
+	border-color: transparent;
+	border-radius: 20px;
+	background-color: #cee6e8;
+}
+
+.field::placeholder {
+	padding-left: 5px;
+}
+
+.text {
+	font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+/* ----------------/LoginPage/---------------- */
+
+/* ----------------CartPage---------------- */
+
+.cart-title {
+	position: relative;
+	top: -10px;
+	left: -10px;
+
+	width: calc(100% + 20px);
+	height: 40px;
+
+	line-height: 40px;
+	text-align: center;
+
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	background-color: #dbdbdb;
+
+	color: #585858;
+	font-size: 32px;
+	font-weight: 300;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+.checkout-detail {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+
+	height: 60px;
+	width: calc(100% - 20px);
+
+
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
+	background-color: #dbdbdb;
+}
+
+.checkout-detail hr {
+	  padding-left: 10px;
+    padding-right: 10px;
+
+    text-align: center;
+}
+
+.cart-product {
+	display: flex;
+	flex-direction: row;
+
+	height: 110px;
+
+	margin-top: 10px;
+
+	border-radius: 12px;
+	background-color: #f0f0f0;
+}
+
+.image-cart-container {
+	display: flex;
+	justify-content: center;
+
+	height: 100%;
+	width: 15%;
+}
+
+.product-cart-img {
+	height: 100%;
+}
+
+.product-cart-info {
+	width: 80%;
+	right: 0px;
+}
+
+.product-cart-name {
+	margin-top: 15px;
+
+	color: #333333;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.price-available-cart {
+	position: relative;
+
+	float: right;
+	right: 0px;
+	bottom: 15px;
+}
+
+.price-cart {
+
+}
+
+.cart-product-interact {
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+	align-items: center;
+
+
+	width: 20%;
+}
+
+.in-stock-cart {
+	position: relative;
+	margin: 0;
+	float: left;
+	bottom: 5px;
+}
+
+.product-cart-count {
+	height: 50px;
+	width: 80px;
+}
+
+.del-item-cart {
+	width: 90px;
+	height: 90px;
+
+	margin-right: 10px;
+	margin-left: 10px;
+
+}
+
+/* ----------------/CartPage/---------------- */

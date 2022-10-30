@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-container">
+        <div class="product-info-cont">
+                <div class="product-container">
+                        <div class="vertical-flex">
+                                <div class="horizontal-flex" style="height: 80%;">
+                                        <div class="detail-product-image-carousel">
+                                                <div style="overflow: hidden;">
+                                                        <ul class="carousel-content">
+                                                                <li class="carousel-item">
+                                                                        <img src="{% static 'core/images/2.png' %}" class="carousel-image">
+                                                                </li>
+                                                                <li class="carousel-item">
+                                                                        <img src="{% static 'core/images/1024.png' %}" class="carousel-image">
+                                                                </li>
+                                                                <li class="carousel-item">
+                                                                        <img src="{% static 'core/images/1024.png' %}" class="carousel-image">
+                                                                </li>
+                                                        </ul>
+                                                </div>
+                                                <button class="carousel-arrow carousel-arrow-left" onclick=""><i class="fa-solid fa-chevron-up"></i></button>
+                                                <button class="carousel-arrow carousel-arrow-right"><i class="fa-solid fa-chevron-up"></i></button>
+                                        </div>
+                                        <div class="detail-info">
+                                            <div class="detail-product-name" tooltip="">{{ product.name }}</div>
+                                                <div class="detail-product-text-container"><div class="detail-product-text scroll">
+                                                    three months ago I was suddenly (for me) told I was outsourced, a business decision. After this I got vacation etc. plus a severance. It was sudden for me but upon reflection I realize they were quiet firing me b/c the consulting company kept asking for server etc. information and passwords etc., then I discovered I was being excluded from meetings I should have been included on that my former co-worker was included on. My former co-worker keeps asking me for passwords. A few I remembered and provided, I know other passwords were documented within the notebook I ethically returned.
+                                                </div></div>
+                                                <div class="detail-product-short-specs"><div>bobobobo / fdosaofdoas / fspfpaf</div></div>
+                                        </div>
+                                </div>
+                                <div class="detail-product-buttons-container"  style="height: 20%;">
+                                        <div class="detail-product-buttons"></div>
+                                </div>
+                        </div>
+                </div>
+                <div class="specifications">
+                        <div class="specs-header"></div>
+                        <div class="detail-specs"></div>
+                </div>
+                {% block comments %}
+                <div class="comments">
+                        <div class="comments-header"></div>
+                        <div class="comment-author"></div>
+                        <div class="comment-content"></div>
+                </div>
+                {% endblock %}
+        </div>
+        <div class="product-additional">
+                <div class="stores stores-available">
+                </div>
+                <div class="resents">
+                </div>
+        </div>
+</div>
+<script type="text/javascript" src="{% static 'core/js/carousel.js' %}"></script>
+{% endblock %}
