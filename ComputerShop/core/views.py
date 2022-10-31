@@ -8,8 +8,8 @@ from django.views.generic import ListView, DetailView, FormView
 
 from cart.models import Product, Category
 from core.forms import LoginUserForm, CreateUserForm
-from core.models import ShopUser
 from core.utils import Paginator, ContextMixin
+from register.models import ShopUser
 
 
 class Index(Paginator, ListView):
@@ -71,7 +71,7 @@ class CreateUser(ContextMixin, FormView):
         password = form.cleaned_data.pop('password1')
         password2 = form.cleaned_data.pop('password2')
 
-        ShopUser.objects.create_user(request=self.request, email=email, password=password, **form.cleaned_data)
+        ShopUser.objects.create_user(email=email, password=password, **form.cleaned_data)
 
         return redirect('index')
 

@@ -1,5 +1,5 @@
-from cart.models import Category
-from core.models import Cart
+from ComputerShop.settings import MEDIA_URL
+from cart.models import Category, Cart
 
 
 class ContextMixin:
@@ -8,6 +8,7 @@ class ContextMixin:
         context = super().get_context_data(**kwargs)
         context['selected_page'] = int(self.request.GET.get("page")) if self.request.GET.get("page") else 0
         context['categories'] = Category.objects.all()
+        context['MEDIA_URL'] = MEDIA_URL
 
         if str(self.request.user) != "AnonymousUser":
             context['user_name'] = self.request.user.first_name if self.request.user.first_name \

@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core.mail import send_mail
 
-from ComputerShop.settings import DEFAULT_FROM_EMAIL
+from ComputerShop.settings import EMAIL_HOST_USER
 
 
 def get_uid(user):
@@ -18,7 +18,8 @@ def get_verify_token(user):
     return token_generator.make_token(user)
 
 
-def send_verify_email(user, to_email, template='email/verification_email.html', from_email=DEFAULT_FROM_EMAIL):
+def send_verify_email(user, to_email, template='email/verification_email.html', from_email=EMAIL_HOST_USER):
+
     uid = get_uid(user)
     token = get_verify_token(user)
 

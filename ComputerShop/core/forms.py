@@ -2,7 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import EmailField
 from django import forms
 
-from core.models import ShopUser
+from register.models import ShopUser
 
 
 class LoginUserForm(AuthenticationForm):

@@ -1,3 +1,27 @@
 from django.contrib import admin
 
-# Register your models here.
+from cart.models import Order, Category, Product, Storage, ProductImage
+
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'get_customer_name', 'status', 'get_products_count', 'get_sum', 'is_paid', 'is_closed')
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'category_name', 'category_slug')
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'category', 'price', 'characteristics', 'is_visible', 'is_available')
+    list_filter = ('category', 'is_visible', 'is_available')
+
+
+class StorageAdmin(admin.ModelAdmin):
+    list_display = ('pk', '__str__', 'get_positions_count')
+
+
+admin.site.register(Order, OrderAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Storage, StorageAdmin)
+admin.site.register(ProductImage)

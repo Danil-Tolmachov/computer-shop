@@ -24,7 +24,9 @@
                 <div class="space" style="height: 20px;"></div>
                 <div class="dropdown-content cat" id="dropdown-cont">
                     {% for cat in categories %}
+                    {% if cat.category_slug %}
                     <a href="{% url 'catalog' cat.category_slug %}">{{ cat.category_name }}</a>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <script type="text/javascript" src="{% static 'core/js/nav-script.js' %}"></script>

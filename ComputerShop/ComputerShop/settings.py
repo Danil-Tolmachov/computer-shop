@@ -73,7 +73,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ComputerShop.wsgi.application'
 
-AUTH_USER_MODEL = 'core.ShopUser'
+#  User system
+
+AUTH_USER_MODEL = 'register.ShopUser'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -91,14 +93,11 @@ DATABASES = {
 
 # Email Verification
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
-
-DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
+EMAIL_HOST_USER = 'postmaster@sandbox610dec4b8da547c0901b9ec24b688d0c.mailgun.org'
+EMAIL_HOST_PASSWORD = '06c46ca939564b6fb1bb4353ba6c80d4-31eedc68-e50e8eae'
 
 
 # Password validation

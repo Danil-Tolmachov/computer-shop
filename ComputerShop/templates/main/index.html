@@ -9,11 +9,19 @@
                     {% for product in products %}
                     <div class="product">
                         <div class="image-container">
-                            <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\2.png' %}" class="product-img"></a>
+                            {% if product.images %}
+                            <a href="{% url 'product' product.pk %}" class="link"><img src="{{ product.images.first.image.url }}" class="product-img"></a>
+                            {% else %}
+                            <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
+                            {% endif %}
                         </div>
                         <div class="product-info">
                             <div class="product-info-inner">
+                                {% if product.category.category_name != "No category" %}
+                                <a href="{% url 'product' product.pk %}" class="link"><h2 class="product-name">{{ product.category.category_name }} {{ product.name }}</h2></a>
+                                {% else %}
                                 <a href="{% url 'product' product.pk %}" class="link"><h2 class="product-name">{{ product.name }}</h2></a>
+                                {% endif %}
                                 <p class="product-text">{{ product.characteristics }}</p>
                                 {% if product.is_available %}
                                 <p class="in-stock">In Stock</p>

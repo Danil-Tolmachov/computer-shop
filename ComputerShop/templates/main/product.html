@@ -10,24 +10,20 @@
                                         <div class="detail-product-image-carousel">
                                                 <div style="overflow: hidden;">
                                                         <ul class="carousel-content">
+                                                                {% for image in product.images.all %}
                                                                 <li class="carousel-item">
-                                                                        <img src="{% static 'core/images/2.png' %}" class="carousel-image">
+                                                                        <img src="{{ image.image.url }}" class="carousel-image">
                                                                 </li>
-                                                                <li class="carousel-item">
-                                                                        <img src="{% static 'core/images/1024.png' %}" class="carousel-image">
-                                                                </li>
-                                                                <li class="carousel-item">
-                                                                        <img src="{% static 'core/images/1024.png' %}" class="carousel-image">
-                                                                </li>
+                                                                {% endfor %}
                                                         </ul>
                                                 </div>
                                                 <button class="carousel-arrow carousel-arrow-left" onclick=""><i class="fa-solid fa-chevron-up"></i></button>
                                                 <button class="carousel-arrow carousel-arrow-right"><i class="fa-solid fa-chevron-up"></i></button>
                                         </div>
                                         <div class="detail-info">
-                                            <div class="detail-product-name" tooltip="">{{ product.name }}</div>
+                                            <div class="detail-product-name" title="{{ product.name }}">{{ product.name }}</div>
                                                 <div class="detail-product-text-container"><div class="detail-product-text scroll">
-                                                    three months ago I was suddenly (for me) told I was outsourced, a business decision. After this I got vacation etc. plus a severance. It was sudden for me but upon reflection I realize they were quiet firing me b/c the consulting company kept asking for server etc. information and passwords etc., then I discovered I was being excluded from meetings I should have been included on that my former co-worker was included on. My former co-worker keeps asking me for passwords. A few I remembered and provided, I know other passwords were documented within the notebook I ethically returned.
+                                                   {{ product.text }}
                                                 </div></div>
                                                 <div class="detail-product-short-specs"><div>bobobobo / fdosaofdoas / fspfpaf</div></div>
                                         </div>

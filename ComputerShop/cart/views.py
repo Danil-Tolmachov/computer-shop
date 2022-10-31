@@ -4,8 +4,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
 
-from cart.models import Product
-from core.models import Cart
+from cart.models import Product, Cart
 from core.utils import ContextMixin
 
 
