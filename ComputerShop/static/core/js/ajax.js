@@ -3,8 +3,9 @@ $(document).ready(function() {
 $(document).on('click', '.del-item', function() {
   	    let id = $(this).attr('id');
         let token = $('.cart-items [name="csrfmiddlewaretoken"]').val();
+
         $.ajax({
-            url: 'cart-delete/',
+            url: 'http://' + document.location.host + '/cart-delete/',
             type: 'post',
             data: {
                 'id':id,
@@ -12,6 +13,9 @@ $(document).on('click', '.del-item', function() {
             },
 
             success: function(data) {
+                $('#'+id).closest('.cancel').slideUp(300);
+                setTimeout(() => $('#'+id).closest('.cancel').remove() , 300);
+
                 $('#'+id).closest('.cancel').slideUp(300);
                 setTimeout(() => $('#'+id).closest('.cancel').remove() , 300);
             },

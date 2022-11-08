@@ -9,7 +9,7 @@
                     {% for product in products %}
                     <div class="product">
                         <div class="image-container">
-                            {% if product.images %}
+                            {% if product.images.first %}
                             <a href="{% url 'product' product.pk %}" class="link"><img src="{{ product.images.first.image.url }}" class="product-img"></a>
                             {% else %}
                             <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
@@ -22,7 +22,11 @@
                                 {% else %}
                                 <a href="{% url 'product' product.pk %}" class="link"><h2 class="product-name">{{ product.name }}</h2></a>
                                 {% endif %}
-                                <p class="product-text">{{ product.characteristics }}</p>
+                                <p class="product-text">
+                                    {% for key, value in product.characteristics.items %}
+                                    {{ key }}: {{ value}} /
+                                    {% endfor %}
+                                </p>
                                 {% if product.is_available %}
                                 <p class="in-stock">In Stock</p>
                                 <p class="price-available price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>

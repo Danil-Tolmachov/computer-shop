@@ -61,7 +61,7 @@
                     {% csrf_token %}
                     {% if cart %}
                     {% for item in cart %}
-                    <div class="cancel"><a href="{% url 'product' item.pk %}">{{ item.name }}</a><button class="fa-solid fa-xmark del-item" id="{{ item.pk }}"></button></div>
+                    <div class="cancel"><a href="{% url 'product' item.product.pk %}">{{ item.product.name }}</a><button class="fa-solid fa-xmark del-item" id="{{ item.product.pk }}"></button></div>
                     {% endfor %}
                     {% endif %}
                     <hr style="width: 300px;">

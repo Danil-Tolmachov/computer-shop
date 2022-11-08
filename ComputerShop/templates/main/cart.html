@@ -17,19 +17,19 @@
             </div>
             <div class="product-cart-info">
                 <div class="product-cart-info-inner">
-                    <a href="{% url 'product' product.pk %}" class="link text"><h2 class="product-cart-name">{{ product.name }}</h2></a>
-                    {% if product.is_available %}
+                    <a href="{% url 'product' product.product.pk %}" class="link text"><h2 class="product-cart-name">{{ product.product.name }}</h2></a>
+                    {% if product.product.is_available %}
                     <p class="in-stock in-stock-cart">In Stock</p>
-                    <p class="price-available-cart price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                    <p class="price-available-cart price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.product.price }}</p>
                     {% else %}
                     <p class="out-of-stock">Out of stock</p>
-                    <p class="price-cart"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                    <p class="price-cart"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.product.price }}</p>
                     {% endif %}
                 </div>
             </div>
             <div class="cart-product-interact">
-                <input class="product-cart-count" type="number">
-                <button class="fa-solid fa-xmark del-item-cart" id="5"></button>
+                <input class="product-cart-count" type="number" value="{{ product.product_count }}">
+                <button class="fa-solid fa-xmark del-item" id="{{ product.product.pk }}"></button>
             </div>
         </div>
         {% endfor %}
@@ -40,7 +40,9 @@
         </div>
         {% endif %}
         <div class="checkout-detail">
-
+            {% if cart %}
+            <a href="{% url 'submit-order' %}">Submit order</a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div>
+    <p>{{ order.id }}</p>
+    <p>{{ order.products.all }}</p>
+    <p>{{ order.get_summary }}</p>
+</div>
+{% endblock %}

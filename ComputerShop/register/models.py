@@ -1,10 +1,11 @@
+from django.contrib import admin
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import CharField, EmailField, ForeignKey, DateTimeField, BooleanField
+from django.db.models import CharField, EmailField, ForeignKey, DateTimeField, BooleanField, ManyToManyField
 from django.utils import timezone
 
-from cart.models import Order, Cart
+from cart.models import Cart, Order
 from core.models import Notification
 from register.utils import send_verify_email
 
@@ -64,11 +65,10 @@ class ShopUser(AbstractUser):
     password = CharField(max_length=255)
 
     cart = ForeignKey(Cart, on_delete=models.CASCADE)
-    orders = ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True, related_name='shopuser')
+    orders = ManyToManyField(Order, blank=True, related_name='shopuser')
     notifications = ForeignKey(Notification, on_delete=models.CASCADE, null=True, blank=True)
     date_joined = DateTimeField(default=timezone.now)
 
-    is_moderator = BooleanField(default=False)
     is_active = BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
@@ -78,4 +78,8 @@ class ShopUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    @admin.display(description='Active orders')
+    def get_active_orders_count(self):
+        return self.orders.filter(is_closed=False).count()
 
