@@ -9,22 +9,26 @@
                     {% for product in products %}
                     <div class="product">
                         <div class="image-container">
-                            {% if product.images.first %}
-                            <a href="{% url 'product' product.pk %}" class="link"><img src="{{ product.images.first.image.url }}" class="product-img"></a>
+                            {% with product_image=product.images.first %}
+
+                            {% if product_image %} 
+                            <a href="{% url 'product' product.pk %}" class="link"><img src="{{ product_image.image.url }}" class="product-img"></a>
                             {% else %}
                             <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
                             {% endif %}
+                            
+                            {% endwith %}
                         </div>
                         <div class="product-info">
                             <div class="product-info-inner">
                                 {% if product.category.category_name != "No category" %}
-                                <a href="{% url 'product' product.pk %}" class="link"><h2 class="product-name">{{ product.category.category_name }} {{ product.name }}</h2></a>
+                                <a href="{% url 'product' product.pk %}" class="link" title="{{ product.name }}"><h2 class="product-name">{{ product.category.category_name }} {{ product.name }}</h2></a>
                                 {% else %}
-                                <a href="{% url 'product' product.pk %}" class="link"><h2 class="product-name">{{ product.name }}</h2></a>
+                                <a href="{% url 'product' product.pk %}" class="link" title="{{ product.name }}"><h2 class="product-name">{{ product.name }}</h2></a>
                                 {% endif %}
                                 <p class="product-text">
                                     {% for key, value in product.characteristics.items %}
-                                    {{ key }}: {{ value}} /
+                                        {{ key }}: {{ value }} <span style="color: #cdcdcd;">/</span>
                                     {% endfor %}
                                 </p>
                                 {% if product.is_available %}

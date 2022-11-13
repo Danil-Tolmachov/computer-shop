@@ -28,10 +28,7 @@ class Activation(View):
             user = None
 
         if user is not None and token_generator.check_token(user, token):
-            print('changed', user.is_active)
             user.is_active = True
-            print('changed', user.is_active)
-
             user.last_login = timezone.now()
             user.save()
 

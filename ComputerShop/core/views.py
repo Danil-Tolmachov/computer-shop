@@ -48,8 +48,24 @@ class ProductView(ContextMixin, DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['title'] = Product.objects.get(pk=self.kwargs['product_id']).name
+
+        resents_list = self.request.user.get_resents()
+        resents_query = Product.objects.filter(pk__in=resents_list)
+        context['resents'] = list(map(lambda pk: resents_query.get(pk=pk), resents_list))
+
+        # Product.objects.filter(pk__in=self.request.user.get_resents())
         return context
+
+    def get_object(self, *args, **kwargs):
+        _object = super().get_object(*args, **kwargs)
+        user = self.request.user
+
+        user.resents = user.get_added_resents(_object.pk)
+        user.save(update_fields=["resents"])
+
+        return _object
 
 
 def about_us(request):

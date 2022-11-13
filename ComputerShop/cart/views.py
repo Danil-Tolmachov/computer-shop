@@ -1,26 +1,22 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView
 
-from cart.models import Product, Cart, ProductItem, Order
+from cart.models import Product, ProductItem, Order
 from cart.utils import make_order, get_new_order_url
 from core.utils import ContextMixin
 
 
 class CartView(LoginRequiredMixin, ContextMixin, DetailView):
-    model = Cart
     template_name = "main/cart.html"
     context_object_name = 'cart'
     extra_context = {'title': 'Cart'}
 
-    # Get current user cart object method
     def get_object(self, queryset=None):
-        return self.request.user.cart.pk
+        return self.request.user.cart.all()
 
 
 class OrderListView(ContextMixin, ListView):
@@ -53,10 +49,10 @@ class CartItemAdd(View):
         self.user_cart = request.user.cart
 
         # if selected product not in user cart products
-        if self.product_obj not in map(lambda x: x.product, self.user_cart.products.all()):
+        if self.product_obj not in map(lambda x: x.product, self.user_cart.all()):
             self.item = ProductItem.objects.create(product=self.product_obj, product_count=1)
 
-            request.user.cart.products.add(self.item)
+            request.user.cart.add(self.item)
 
             # item container context
             data = {
@@ -67,7 +63,7 @@ class CartItemAdd(View):
             return JsonResponse(data=data, status=200)
         # else add 1 to product count
         else:
-            self.user_product = self.user_cart.products.filter(product=self.product_obj)
+            self.user_product = self.user_cart.filter(product=self.product_obj)
             self.user_product.update(product_count=self.user_product.first().product_count+1)
 
             data = {
@@ -83,7 +79,7 @@ class CartItemDelete(View):
         self.item_id = int(request.POST['id'])
         self.user_cart = request.user.cart
 
-        if Product.objects.get(pk=self.item_id) in map(lambda x: x.product, self.user_cart.products.all()):
+        if Product.objects.get(pk=self.item_id) in map(lambda x: x.product, self.user_cart.all()):
             self.product_obj = Product.objects.get(pk=self.item_id)
 
         else:
@@ -92,20 +88,20 @@ class CartItemDelete(View):
             }
             return JsonResponse(data=data, status=500)
 
-        self.user_cart.products.filter(product=self.product_obj).delete()
+        self.user_cart.filter(product=self.product_obj).delete()
         return JsonResponse(data={}, status=200)
 
 
 class SubmitOrder(LoginRequiredMixin, View):
     def get(self, request):
-        if not self.request.user.cart.products.first():
+        if not self.request.user.cart.first():
             return redirect('index')
-        if False in map(lambda x: x.product.is_available, self.request.user.cart.products.all()):
+        if False in map(lambda x: x.product.is_available, self.request.user.cart.all()):
             return redirect('index')
 
         order_url = get_new_order_url()
         order = make_order(request, order_url)
 
         self.request.user.orders.add(order)
-        self.request.user.cart.products.clear()
+        self.request.user.cart.clear()
         return redirect('order', order.url)

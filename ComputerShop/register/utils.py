@@ -32,6 +32,4 @@ def send_verify_email(user, to_email, template='email/verification_email.html', 
         'domain': "127.0.0.1:8000",
     })
 
-    print(message)
-
     send_mail(mail_subject, message, from_email, [to_email])

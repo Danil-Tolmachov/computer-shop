@@ -1,11 +1,16 @@
+import json
+from json import JSONDecodeError
+
 from django.contrib import admin
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import CharField, EmailField, ForeignKey, DateTimeField, BooleanField, ManyToManyField
+from django.db.models import CharField, EmailField, ForeignKey, DateTimeField, BooleanField, ManyToManyField, JSONField
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils import timezone
 
-from cart.models import Cart, Order
+from cart.models import Order, ProductItem
 from core.models import Notification
 from register.utils import send_verify_email
 
@@ -20,7 +25,6 @@ class ShopUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
 
-        user.cart = Cart.objects.create()
         user.set_password(password)
 
         user.save(using=self._db)
@@ -64,8 +68,12 @@ class ShopUser(AbstractUser):
     email = EmailField(max_length=255, unique=True)
     password = CharField(max_length=255)
 
-    cart = ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = ManyToManyField(ProductItem, related_name='user')
     orders = ManyToManyField(Order, blank=True, related_name='shopuser')
+
+    # Uses json.dump() and json.loads() to manipulate with resent objects
+    resents = models.CharField(max_length=200, blank=True)
+
     notifications = ForeignKey(Notification, on_delete=models.CASCADE, null=True, blank=True)
     date_joined = DateTimeField(default=timezone.now)
 
@@ -78,6 +86,30 @@ class ShopUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    def get_added_resents(self, product):
+
+        try:
+            resents = json.loads(str(self.resents))
+        except JSONDecodeError:
+            resents = []
+
+        if product in resents:
+            resents.remove(product)
+            resents.append(product)
+        else:
+            resents.append(product)
+
+        return json.dumps(resents[-10:])
+
+    def get_resents(self):
+        return json.loads(self.resents)
+
+    def get_order(self, request, order_url):
+        self.order = Order.objects.create(url=order_url)
+        self.order.products.add(*request.user.cart.all())
+
+        return self.order
 
     @admin.display(description='Active orders')
     def get_active_orders_count(self):

@@ -55,7 +55,7 @@
             </div>
             {% if title != 'Cart' %}
             <div class="dropdown right-side-nav">
-                <li><a id="cart" href="{% url 'cart' %}"><i class="fa-solid fa-cart-flatbed" ></i></a></li>
+                <li><a id="cart" href="{% url 'cart' %}"><i class="fa-solid fa-cart-flatbed"></i></a></li>
                 <div class="space" style="right: 70px; width: 70px; float: right;"></div>
                 <div class="dropdown-content cart-items" style="left: -263px;">
                     {% csrf_token %}

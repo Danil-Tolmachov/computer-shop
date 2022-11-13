@@ -1,27 +1,30 @@
 from ComputerShop.settings import MEDIA_URL
-from cart.models import Category, Cart
+from cart.models import Category, Product
 
 
 class ContextMixin:
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        user = self.request.user
+
         context = super().get_context_data(**kwargs)
         context['selected_page'] = int(self.request.GET.get("page")) if self.request.GET.get("page") else 0
         context['categories'] = Category.objects.all()
         context['MEDIA_URL'] = MEDIA_URL
 
-        if str(self.request.user) != "AnonymousUser":
-            context['user_name'] = self.request.user.first_name if self.request.user.first_name \
-                                                                else self.request.user.email
+        if str(user) != "AnonymousUser":
+            context['user_name'] = user.first_name if user.first_name else user.email
+
         else:
-            context['user_name'] = str(self.request.user)
+            context['user_name'] = str(user)
 
         if hasattr(self, "pages_count"):
             context['pages'] = list(range(1, self.pages_count + 1))
 
-        if str(self.request.user) != "AnonymousUser":
-            user_cart = Cart.objects.get(shopuser=self.request.user.pk)
-            context['cart'] = user_cart.products.all()
+        if str(user) != "AnonymousUser":
+            user_cart = user.cart.all()
+            context['cart'] = user_cart.all()
+
         return context
 
 

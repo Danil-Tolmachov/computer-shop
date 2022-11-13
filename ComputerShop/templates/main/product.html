@@ -8,6 +8,7 @@
                         <div class="vertical-flex">
                                 <div class="horizontal-flex" style="height: 80%;">
                                         <div class="detail-product-image-carousel">
+                                                {% if product.images.first %}
                                                 <div style="overflow: hidden;">
                                                         <ul class="carousel-content">
                                                                 {% for image in product.images.all %}
@@ -17,40 +18,98 @@
                                                                 {% endfor %}
                                                         </ul>
                                                 </div>
+                                                {% else %}
+                                                        <div style="height: 100%; width: 600px"></div>
+                                                {% endif%}
+                                                {% if product.images.count > 1 %}
                                                 <button class="carousel-arrow carousel-arrow-left" onclick=""><i class="fa-solid fa-chevron-up"></i></button>
                                                 <button class="carousel-arrow carousel-arrow-right"><i class="fa-solid fa-chevron-up"></i></button>
+                                                {% endif %}
                                         </div>
                                         <div class="detail-info">
-                                            <div class="detail-product-name" title="{{ product.product.name }}">{{ product.product.name }}</div>
+                                            <div class="detail-product-name" title="{{ product.name }}">{{ product.name }}</div>
                                                 <div class="detail-product-text-container"><div class="detail-product-text scroll">
-                                                   {{ product.product.text }}
+                                                   {{ product.text }}
                                                 </div></div>
-                                                <div class="detail-product-short-specs"><div>bobobobo / fdosaofdoas / fspfpaf</div></div>
+                                                <div class="detail-product-short-specs"><div>
+                                                {% for key, value in product.characteristics.items %}
+                                                        {{ key }}: {{ value }} <span style="color: #cdcdcd;">/</span>
+                                                {% endfor %}
+                                                </div></div>
                                         </div>
                                 </div>
                                 <div class="detail-product-buttons-container"  style="height: 20%;">
-                                        <div class="detail-product-buttons"></div>
+                                        <div class="detail-product-buttons">
+                                                <select class="detail-item-button detail-select">
+                                                        <option selected disabled>{{ product.name }}</option>
+                                                </select>
+                                                <hr style="float: left;">
+
+                                                <button class="detail-item-button detail-add-to-cart">Add in cart</button>
+                                                <hr style="float: right;">
+                                                <p class="detail-item-button detail-price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                                        </div>
                                 </div>
                         </div>
                 </div>
                 <div class="specifications">
-                        <div class="specs-header"></div>
-                        <div class="detail-specs"></div>
+                        <div class="specs-header"><h3 class="text-header">Specifications:</h3></div>
+                        <div class="detail-specs">
+                                <table width="100%" height="100%" class="spec-table">
+                                        <tbody>
+                                                {% for key, value in product.characteristics.items %}
+                                                <tr><td>{{ key }}: </td><td>{{ value }}</td></tr>
+                                                {% endfor %}
+                                        </tbody>
+                                </table>
+                        </div>
+                        <div class="specs-footer">
+                                {% if product.characteristics|length > 3 %}
+                                <i class="fa-solid fa-chevron-down text" style="line-height: 50px; color: #606060;"></i>
+                                {% endif %}
+                        </div>
                 </div>
                 {% block comments %}
                 <div class="comments">
-                        <div class="comments-header"></div>
+                        <div><p class="text-header">Comments:</p></div>
                         <div class="comment-author"></div>
                         <div class="comment-content"></div>
                 </div>
                 {% endblock %}
         </div>
         <div class="product-additional">
+                {% if product.is_available %}
                 <div class="stores stores-available">
+                        <p class="text-header" style="color: #404040;">Storages:</p>
+                        <div style="padding: 5px; height: calc(100% - 60px);">
+                                <div class="stores-container">
+                                        {% for product_in_storage in product.get_storage_objects %}
+                                        <div class="store-with-product">{{ product_in_storage.storage.first }}: {{ product_in_storage.product_count }}</div>
+                                        {% endfor %}
+                                </div>
+                        </div>
                 </div>
+                {% else %}
+                <div class="stores stores-not-available">
+                        <p class="text-header" style="color: #404040;">Stores:</p>
+                        <div class="stores-nothing">
+                                <i class="fa-solid fa-ban"></i>
+                                <p class="text">Not available</p>
+                        </div>
+                </div>
+                {% endif %}
                 <div class="resents">
+                        <p class="text-header">Resents:</p>
+                        <div class="base-container">
+                                <div class="resents-container">
+                                        {% for product in resents reversed %}
+                                        <a class="store-with-product" href="{% url 'product' product.pk %}"><img src="">{{ product.name }}</a>
+                                        {% endfor %}
+                                </div>
+                        </div>
                 </div>
         </div>
 </div>
 <script type="text/javascript" src="{% static 'core/js/carousel.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/js/specs-script.js' %}"></script>
 {% endblock %}
