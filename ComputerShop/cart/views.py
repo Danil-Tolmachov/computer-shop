@@ -16,7 +16,7 @@ class CartView(LoginRequiredMixin, ContextMixin, DetailView):
     extra_context = {'title': 'Cart'}
 
     def get_object(self, queryset=None):
-        return self.request.user.cart.all()
+        return self.request.user.cart.all().prefetch_related('product')
 
 
 class OrderListView(ContextMixin, ListView):

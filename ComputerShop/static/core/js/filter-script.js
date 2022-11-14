@@ -1,4 +1,7 @@
-
+$('nav').ready(function(){
+	document.querySelector('.products-inner').style.borderBottomLeftRadius = '0px';
+	document.querySelector('.products-inner').style.borderTopLeftRadius = '0px';
+})
 function hasClass(el, cls) {
 		if (el.className.match('(?:^|\\s)'+cls+'(?!\\S)')) { return true; } 
 		}

@@ -13,7 +13,7 @@ class ContextMixin:
         context['MEDIA_URL'] = MEDIA_URL
 
         if str(user) != "AnonymousUser":
-            context['user_name'] = user.first_name if user.first_name else user.email
+            context['user_name'] = user.first_name or user.email
 
         else:
             context['user_name'] = str(user)
@@ -23,7 +23,7 @@ class ContextMixin:
 
         if str(user) != "AnonymousUser":
             user_cart = user.cart.all()
-            context['cart'] = user_cart.all()
+            context['user_cart'] = user_cart.all()
 
         return context
 

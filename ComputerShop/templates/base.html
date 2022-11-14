@@ -53,13 +53,14 @@
                     {% endif%}
                 </div>
             </div>
+            {% with cart=user_cart %}
             {% if title != 'Cart' %}
             <div class="dropdown right-side-nav">
                 <li><a id="cart" href="{% url 'cart' %}"><i class="fa-solid fa-cart-flatbed"></i></a></li>
                 <div class="space" style="right: 70px; width: 70px; float: right;"></div>
                 <div class="dropdown-content cart-items" style="left: -263px;">
                     {% csrf_token %}
-                    {% if cart %}
+                    {% if cart.pk %}
                     {% for item in cart %}
                     <div class="cancel"><a href="{% url 'product' item.product.pk %}">{{ item.product.name }}</a><button class="fa-solid fa-xmark del-item" id="{{ item.product.pk }}"></button></div>
                     {% endfor %}
@@ -69,6 +70,7 @@
                 </div>
             </div>
             {% endif%}
+            {% endwith %}
         </ul> 
     </nav>
     {% endblock %}

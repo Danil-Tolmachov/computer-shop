@@ -74,7 +74,7 @@ class ShopUser(AbstractUser):
     # Uses json.dump() and json.loads() to manipulate with resent objects
     resents = models.CharField(max_length=200, blank=True)
 
-    notifications = ForeignKey(Notification, on_delete=models.CASCADE, null=True, blank=True)
+    notifications = JSONField()
     date_joined = DateTimeField(default=timezone.now)
 
     is_active = BooleanField(default=True)

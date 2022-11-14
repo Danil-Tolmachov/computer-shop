@@ -1,7 +1,8 @@
+from django.db.models import Prefetch, Case, When
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
-from cart.models import Product, Category
+from cart.models import Product, Category, ProductImage
 from core.utils import Paginator, ContextMixin
 
 
@@ -12,25 +13,28 @@ class Index(Paginator, ListView):
     extra_context = {'title': 'ComputerShop'}
 
     def get_queryset(self, query=None):
-        query = Product.objects.filter(is_visible=True).order_by('-pk')
-        query = super().get_queryset(query)
+        query = Product.objects.filter(is_visible=True).select_related('category').order_by("pk")
+        prefetch = Prefetch('images', queryset=ProductImage.objects.distinct(), to_attr='photo')
+        print(query.prefetch_related(prefetch).last().photo[0].image.url)
+        query = super().get_queryset(query.prefetch_related(prefetch))
 
         return query
 
 
 class Catalog(Paginator, ListView):
     model = Product
+    category_model = Category
+
     context_object_name = 'products'
     template_name = 'main/catalog.html'
     extra_context = {'title': 'Catalog'}
 
     def get_queryset(self, query=None):
         if self.kwargs:
-            if not Category.objects.filter(category_name=self.kwargs['category']):
-                return []
-            query = Product.objects.filter(
-                category=Category.objects.filter(category_name=self.kwargs['category'])[0].pk
-            )
+            category = self.category_model.objects.get(category_slug=self.kwargs['category'])
+
+            query = self.model.objects.filter(category=category.pk)
+
             query = super().get_queryset(query)
             return query
 
@@ -49,13 +53,13 @@ class ProductView(ContextMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['title'] = Product.objects.get(pk=self.kwargs['product_id']).name
-
         resents_list = self.request.user.get_resents()
-        resents_query = Product.objects.filter(pk__in=resents_list)
-        context['resents'] = list(map(lambda pk: resents_query.get(pk=pk), resents_list))
 
-        # Product.objects.filter(pk__in=self.request.user.get_resents())
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(resents_list)])
+        resents_query = Product.objects.filter(pk__in=resents_list).order_by(preserved)
+
+        context['resents'] = resents_query
+        context['title'] = Product.objects.get(pk=self.kwargs['product_id']).name
         return context
 
     def get_object(self, *args, **kwargs):

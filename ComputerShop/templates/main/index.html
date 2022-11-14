@@ -3,20 +3,20 @@
 
 {% block main %}
 <div class="main-block">
-
+    {% block filters %}
         <div>
+    {% endblock %}
+            {% block products %}
             <div class="products-inner" style="border-top-left-radius: 12px;">
                     {% for product in products %}
                     <div class="product">
                         <div class="image-container">
-                            {% with product_image=product.images.first %}
-
-                            {% if product_image %} 
-                            <a href="{% url 'product' product.pk %}" class="link"><img src="{{ product_image.image.url }}" class="product-img"></a>
+                            {% with product_obj=product %}
+                            {% if product_obj %} 
+                            <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{{ product_obj.photo.0.image.url }}" class="product-img"></a>
                             {% else %}
-                            <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
+                            <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
                             {% endif %}
-                            
                             {% endwith %}
                         </div>
                         <div class="product-info">
@@ -68,7 +68,9 @@
                         <i class="fa-solid fa-ban"></i>
                     </div>
                     {% endif %}
+                    
             </div>
+            {% endblock %}
         </div>
 </div>
 {% endblock %}
