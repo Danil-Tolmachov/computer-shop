@@ -39,10 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    #  Apps
     'core',
     'cart',
     'register',
+    #   Rest
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser'
+
 ]
 
 MIDDLEWARE = [
@@ -157,3 +162,20 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+# Rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+        'restapi.permissions.IsAdminOrReadOnly',
+    ),
+
+}

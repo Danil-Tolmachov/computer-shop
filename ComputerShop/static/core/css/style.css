@@ -4,6 +4,10 @@ body {
 	background: lightblue;
 }
 
+body::-webkit-scrollbar {
+	width: 0px;
+}
+
 .link {
 	text-decoration: none;
 	color: inherit;
@@ -84,7 +88,7 @@ nav li a span {
 
 nav li input {
 	width: 300px;
-	height: 50px;
+	height: 48px;
 	
 	background: #FFFFFE/*rgba(240, 240, 229, 0.39)*/;
 	backdrop-filter: blur(45px);
@@ -872,7 +876,7 @@ footer p {
 	font-weight: 600;
 	font-family: 'Nunito';
 }
-.resents-container .store-with-product:nth-child(odd) {
+div .store-with-product:nth-child(odd) {
 	background-color: #00000008;
 }
 
@@ -1099,6 +1103,7 @@ footer p {
 }
 
 .detail-select {
+    padding: 20px;
 	float: left;
 
 	appearance: none;
@@ -1112,12 +1117,13 @@ footer p {
 
 	background: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-down-b-64.png) no-repeat;
 	background-size: 20px;
-	background-position: 175px
+	background-position: right;
 }
 
 .detail-price {
 	float: right;
-	min-width: 70px;
+	min-width: 90px;
+	padding-right: 10px;
 
 	margin: 0;
 

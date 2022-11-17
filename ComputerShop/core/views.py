@@ -15,10 +15,9 @@ class Index(Paginator, ListView):
     def get_queryset(self, query=None):
         query = Product.objects.filter(is_visible=True).select_related('category').order_by("pk")
         prefetch = Prefetch('images', queryset=ProductImage.objects.distinct(), to_attr='photo')
-        print(query.prefetch_related(prefetch).last().photo[0].image.url)
-        query = super().get_queryset(query.prefetch_related(prefetch))
 
-        return query
+        query = super().get_queryset(query.prefetch_related(prefetch))
+        return reversed(query)
 
 
 class Catalog(Paginator, ListView):

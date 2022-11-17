@@ -80,7 +80,7 @@ class ProductImage(models.Model):
 
 
 class Product(models.Model):
-    name = CharField(max_length=255)
+    name = CharField(max_length=255, blank=True)
     images = ManyToManyField('ProductImage', blank=True)
 
     text = TextField(null=True, blank=True)

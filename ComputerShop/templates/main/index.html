@@ -12,7 +12,7 @@
                     <div class="product">
                         <div class="image-container">
                             {% with product_obj=product %}
-                            {% if product_obj %} 
+                            {% if product_obj.photo.0 %} 
                             <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{{ product_obj.photo.0.image.url }}" class="product-img"></a>
                             {% else %}
                             <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>

@@ -68,13 +68,13 @@ class ShopUser(AbstractUser):
     email = EmailField(max_length=255, unique=True)
     password = CharField(max_length=255)
 
-    cart = ManyToManyField(ProductItem, related_name='user')
+    cart = ManyToManyField(ProductItem, related_name='user', blank=True)
     orders = ManyToManyField(Order, blank=True, related_name='shopuser')
 
     # Uses json.dump() and json.loads() to manipulate with resent objects
     resents = models.CharField(max_length=200, blank=True)
 
-    notifications = JSONField()
+    notifications = JSONField(default=dict, blank=True)
     date_joined = DateTimeField(default=timezone.now)
 
     is_active = BooleanField(default=True)

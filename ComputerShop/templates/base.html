@@ -44,6 +44,7 @@
                 <div class="space"></div>
                 <div class="dropdown-content">
                     <a href="{% url 'account' %}">My Account</a>
+                    <a href="{% url 'account' %}">Orders</a>
                     <hr>
                     {% if user_name == "AnonymousUser" %}
                     <a href="{% url 'login' %}">Login</a>
@@ -79,8 +80,8 @@
     {% endblock %}
         
         <footer>
-        <h1>ComputerShop inc.</h1>
-        <p>All rights reserved</p>
+        <h1>ComputerShop</h1>
+        <p>Footer</p>
         </footer>
 </body>
 </html>
