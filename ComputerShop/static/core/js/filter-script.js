@@ -1,6 +1,10 @@
 $('nav').ready(function(){
-	document.querySelector('.products-inner').style.borderBottomLeftRadius = '0px';
+	let container = document.querySelector('.products-inner');
+	let filter = document.querySelectorAll('.filters-border');
 	document.querySelector('.products-inner').style.borderTopLeftRadius = '0px';
+	if (container.height() > filter.height()) {
+		document.querySelector('.products-inner').style.borderBottomLeftRadius = '0px';
+	}
 })
 function hasClass(el, cls) {
 		if (el.className.match('(?:^|\\s)'+cls+'(?!\\S)')) { return true; } 
@@ -40,10 +44,6 @@ function elementFromTop() {
 		} else {
 			delClass(elem[i], classToAdd);
 			products.style.borderTopLeftRadius = '0px';
-
-			if (products.clientHeight = 700) {
-				products.style.borderBottomLeftRadius = '0px';
-			}
 		}
 		}
 	}

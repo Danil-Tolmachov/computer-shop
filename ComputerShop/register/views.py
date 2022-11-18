@@ -72,6 +72,25 @@ class Account(LoginRequiredMixin, ContextMixin, DetailView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        user = self.request.user
+
+        context['account_buttons'] = [
+            'Account settings',
+        ]
+
+        context['account_fields'] = {
+            'First name': user.first_name,
+            'Last name': user.last_name,
+            'Country': user.country,
+            'City': user.city,
+            'Address': user.address,
+            'Email': user.email,
+            'Date joined': user.date_joined,
+        }
+        return context
+
 
 def logout_user(request):
     logout(request)

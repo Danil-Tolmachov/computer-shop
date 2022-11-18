@@ -1,20 +1,15 @@
-from django.contrib.auth import login, authenticate, get_user_model
-from django.shortcuts import render
+from django.contrib.auth import login, get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import viewsets
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.authtoken.models import Token
-from rest_framework.decorators import action, permission_classes, api_view
-from rest_framework.generics import ListAPIView, ListCreateAPIView
-from rest_framework.permissions import IsAdminUser, AllowAny
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from cart.models import Product, Category
-from register.models import ShopUser
 from restapi.permissions import IsAdminOrReadOnly
-from restapi.serializers import ProductSerializer, UserSerializer, AuthSerializer, UserUpdateSerializer
+from restapi.serializers import ProductSerializer, UserSerializer, UserUpdateSerializer
 
 
 class ShopUserAuthentication(BasicAuthentication):
@@ -24,42 +19,41 @@ class ShopUserAuthentication(BasicAuthentication):
         return user, _
 
 
-class LoginApiView(APIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (AllowAny,)
+#  Own token system view
 
-    def get(self, request, format=None):
-        content = {
-            'user': str(request.user),  # `django.contrib.auth.User` instance.
-            'auth': str(request.auth),  # None
-        }
-
-        if request.auth:
-            return Response({'user': str(request.user)})
-        else:
-            return Response({'message': 'incorrect token'})
-
-    def post(self, request):
-        serializer = AuthSerializer(data=request.POST)
-
-        if not (str(request.user) == 'AnonymousUser'):
-            return Response({'message': 'you already authorized'})
-
-        if not serializer.is_valid():
-            return Response(serializer.errors)
-        username, password = serializer.data.values()
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            try:
-                token = Token.objects.get(user=user)
-            except ObjectDoesNotExist:
-                token = Token.objects.create(user=user)
-
-            return Response({'token': str(token)})
-
-        return Response({'message': 'invalid username or password'})
+# class LoginApiView(APIView):
+#     authentication_classes = (TokenAuthentication,)
+#     permission_classes = (AllowAny,)
+#
+#     def get(self, request, format=None):
+#         content = {
+#             'user': str(request.user),  # `django.contrib.auth.User` instance.
+#             'auth': str(request.auth),  # None
+#         }
+#
+#         if request.auth:
+#             return Response({'user': str(request.user)})
+#         else:
+#             return Response({'message': 'incorrect token'})
+#
+#     def post(self, request):
+#         serializer = AuthSerializer(data=request.POST)
+#
+#         if not (str(request.user) == 'AnonymousUser'):
+#             return Response({'message': 'you already authorized'})
+#
+#         if not serializer.is_valid():
+#             return Response(serializer.errors)
+#         username, password = serializer.data.values()
+#
+#         user = authenticate(request, username=username, password=password)
+#
+#         if user is not None:
+#             token = Token.objects.get_or_create(user=user)
+#
+#             return Response({'token': str(token)})
+#
+#        return Response({'message': 'invalid username or password'})
 
 
 class ProductsApiViewSet(viewsets.ModelViewSet):

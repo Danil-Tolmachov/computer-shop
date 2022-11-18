@@ -2,11 +2,27 @@
 {% load static %}
 
 {% block main %}
-    <p>{{ account.first_name }}</p>
-    <p>{{ account.last_name }}</p>
-    <p>{{ account.country }}</p>
-    <p>{{ account.city }}</p>
-    <p>{{ account.address }}</p>
-    <p>{{ account.email }}</p>
-    <p>{{ account.date_joined }}</p>
+<div class="main-block">
+
+    <div class="products-inner account-inner" style="border-top-left-radius: 12px;">
+        <div class="left-nav">
+            {% for button in account_buttons %}
+            <button>{{ button }}</button>
+            {% endfor %}
+        </div>
+        <div class="main-account">
+            <dl>
+            {% for name, value in account_fields.items %}
+                <dt>{{ name }}:</dt><dd>{{ value }}</dd>
+            {% endfor %}
+            </dl>
+            <div class="account-buttons">
+
+                <button>Change something</button>
+            </div>
+        </div>
+    
+    </div>
+
+</div>
 {% endblock %}

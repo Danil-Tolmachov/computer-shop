@@ -32,9 +32,10 @@ class Catalog(Paginator, ListView):
         if self.kwargs:
             category = self.category_model.objects.get(category_slug=self.kwargs['category'])
 
-            query = self.model.objects.filter(category=category.pk)
+            query = self.model.objects.filter(category=category.pk).select_related('category')
+            prefetch = Prefetch('images', queryset=ProductImage.objects.distinct(), to_attr='photo')
 
-            query = super().get_queryset(query)
+            query = super().get_queryset(query.prefetch_related(prefetch))
             return query
 
         query = Product.objects.filter(is_visible=True).order_by('-pk')

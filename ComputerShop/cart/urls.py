@@ -5,8 +5,8 @@ from cart.views import CartView, CartItemDelete, CartItemAdd, SubmitOrder, Order
 urlpatterns = [
     # Views
     path('cart/', CartView.as_view(), name='cart'),
-    path('orders/', OrderListView.as_view(), name='order'),
-    path('order/<slug:order_url>', OrderView.as_view(), name='order'),
+    path('orders/', OrderListView.as_view(), name='orders'),
+    path('orders/<slug:order_url>', OrderView.as_view(), name='order'),
 
     path('submit-order/', SubmitOrder.as_view(), name='submit-order'),
 
