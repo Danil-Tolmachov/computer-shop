@@ -1,4 +1,3 @@
-# Computer shop
 # Preview:
 
 ![2](https://user-images.githubusercontent.com/59608495/202649969-062269ea-c093-4189-8b21-04640c614fdd.PNG)
