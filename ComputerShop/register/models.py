@@ -86,13 +86,16 @@ class ShopUser(AbstractUser):
 
     def change_password(self, old_password, new_password):
         if old_password == new_password:
+
             return False
 
         try:
             validate_password(password=new_password)
         except ValidationError:
+            print('there2')
             return False
         self.set_password(new_password)
+        self.save()
 
     def get_added_resents(self, product):
         try:

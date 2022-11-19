@@ -8,7 +8,7 @@ class ContextMixin:
         user = self.request.user
 
         context = super().get_context_data(**kwargs)
-        context['selected_page'] = int(self.request.GET.get("page")) if self.request.GET.get("page") else 0
+        context['selected_page'] = int(self.request.GET.get("page")) if self.request.GET.get("page") else 1
         context['categories'] = Category.objects.all()
         context['MEDIA_URL'] = MEDIA_URL
 
@@ -35,16 +35,16 @@ class Paginator(ContextMixin):
 
         objects = query.count()
         pages_count = ceil(objects / Paginator.max_elements)
+        self.pages_count = pages_count
 
         if self.request.GET.get("page"):
             page = int(self.request.GET.get("page"))
 
             if page > pages_count:
-                page = 1
+                page = pages_count
         else:
             page = 1
 
         start_object = page * Paginator.max_elements - Paginator.max_elements
         end_object = page * Paginator.max_elements
-
         return query[start_object:end_object]

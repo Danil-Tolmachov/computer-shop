@@ -22,6 +22,15 @@ class ProductAdmin(admin.ModelAdmin):
                     'characteristics', 'is_visible', 'is_available'
                     )
     list_filter = ('category', 'is_visible', 'is_available')
+    actions = ['products_deactivate', 'products_activate']
+
+    @admin.action(description='Deactivate products')
+    def products_deactivate(modeladmin, request, queryset):
+        queryset.update(is_visible=0)
+
+    @admin.action(description='Activate products')
+    def products_activate(modeladmin, request, queryset):
+        queryset.update(is_visible=1)
 
 
 class ProductItemAdmin(admin.ModelAdmin):

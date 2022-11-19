@@ -13,11 +13,11 @@ class Index(Paginator, ListView):
     extra_context = {'title': 'ComputerShop'}
 
     def get_queryset(self, query=None):
-        query = Product.objects.filter(is_visible=True).select_related('category').order_by("pk")
+        query = Product.objects.filter(is_visible=True).select_related('category').order_by("-pk")
         prefetch = Prefetch('images', queryset=ProductImage.objects.distinct(), to_attr='photo')
 
         query = super().get_queryset(query.prefetch_related(prefetch))
-        return reversed(query)
+        return query
 
 
 class Catalog(Paginator, ListView):

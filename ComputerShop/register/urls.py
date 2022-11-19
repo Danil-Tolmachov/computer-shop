@@ -9,7 +9,7 @@ urlpatterns = [
 
     # Register and change user
     path('register/', CreateUser.as_view(), name='register'),
-    path('forgot-password/', ChangeUserPassword.as_view(), name='change_user'),
+    path('forgot-password/', ChangeUserPassword.as_view(), name='change_password'),
     path('activation/<slug:uidb64>/<slug:token>/', Activation.as_view(), name='activate'),
 
     # Views

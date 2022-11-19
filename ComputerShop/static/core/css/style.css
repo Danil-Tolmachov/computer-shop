@@ -937,6 +937,10 @@ div .store-with-product:nth-child(odd) {
 	bottom: 210px;
 }
 
+.specs-footer i {
+	transition: 0.4s;
+}
+
 .detail-specs {
 	width: 100%;
 	height: calc(100% - 100px);

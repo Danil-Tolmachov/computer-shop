@@ -6,71 +6,73 @@
     {% block filters %}
         
     {% endblock %}
-            {% block products %}
-            <div class="products-inner" style="border-top-left-radius: 12px;">
-                    {% for product in products %}
-                    <div class="product">
-                        <div class="image-container">
-                            {% with product_obj=product %}
-                            {% if product_obj.photo.0 %} 
-                            <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{{ product_obj.photo.0.image.url }}" class="product-img"></a>
-                            {% else %}
-                            <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
-                            {% endif %}
-                            {% endwith %}
-                        </div>
-                        <div class="product-info">
-                            <div class="product-info-inner">
-                                {% if product.category.category_name != "No category" %}
-                                <a href="{% url 'product' product.pk %}" class="link" title="{{ product.name }}"><h2 class="product-name">{{ product.category.category_name }} {{ product.name }}</h2></a>
-                                {% else %}
-                                <a href="{% url 'product' product.pk %}" class="link" title="{{ product.name }}"><h2 class="product-name">{{ product.name }}</h2></a>
-                                {% endif %}
-                                <p class="product-text">
-                                    {% for key, value in product.characteristics.items %}
-                                        {{ key }}: {{ value }} <span style="color: #cdcdcd;">/</span>
-                                    {% endfor %}
-                                </p>
-                                {% if product.is_available %}
-                                <p class="in-stock">In Stock</p>
-                                <p class="price-available price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
-                                <button class="buy-btn add-item" id="add/{{ product.pk }}">Buy this</button>
-                                {% else %}
-                                <p class="out-of-stock">Out of stock</p>
-                                <p class="price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
-                                <button class="buy-btn buy-off add-item" id="add/{{ product.pk }}">Buy this</button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% if products %}
-                    <nav class="pages">
-                        <ul class="pagination justify-content-center">
-                            {% if selected_page != None and selected_page > 1 %}
-                            <li class="page-item"><a href="?page={{ selected_page|add:-1 }}" name="page-button" class="page-link" style="color: #6c757d;">Prev</a></li>
-                            {% endif %}
-                            {% for page in pages %}
-                            {% if q %}
-                            <li class="page-item"><a href="?q={{ q }}&page={{ page }}" name="page-button" class="page-link" style="color: #6c757d;">{{ page }}</a></li>
-                            {% else %}
-                            <li class="page-item"><a href="?page={{ page }}" name="page-button" class="page-link" style="color: #6c757d;">{{ page }}</a></li>
-                            {% endif %}
-                            {% endfor %}
-                            {% if selected_page < pages|length and selected_page > 1 %}
-                            <li class="page-item"><a href="?page={{ selected_page|add:1 }}" name="page-button" class="page-link" style="color: #6c757d;">Next</a></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
+        {% block products %}
+        <div class="products-inner" style="border-top-left-radius: 12px;">
+            {% if products|length != 0 %}
+            {% for product in products %}
+            <div class="product">
+                <div class="image-container">
+                    {% with product_obj=product %}
+                    {% if product_obj.photo.0 %} 
+                    <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{{ product_obj.photo.0.image.url }}" class="product-img"></a>
                     {% else %}
-                    <div class="nothing">
-                        <p class="text">Sorry. There is nothing</p>
-                        <i class="fa-solid fa-ban"></i>
-                    </div>
+                    <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{% static 'core\images\ban-solid.svg' %}" class="product-img"></a>
                     {% endif %}
-                    
+                    {% endwith %}
+                </div>
+                <div class="product-info">
+                    <div class="product-info-inner">
+                        {% if product.category.category_name != "No category" %}
+                        <a href="{% url 'product' product.pk %}" class="link" title="{{ product.name }}"><h2 class="product-name">{{ product.category.category_name }} {{ product.name }}</h2></a>
+                        {% else %}
+                        <a href="{% url 'product' product.pk %}" class="link" title="{{ product.name }}"><h2 class="product-name">{{ product.name }}</h2></a>
+                        {% endif %}
+                        <p class="product-text">
+                            {% for key, value in product.characteristics.items %}
+                                {{ key }}: {{ value }} <span style="color: #cdcdcd;">/</span>
+                            {% endfor %}
+                        </p>
+                        {% if product.is_available %}
+                        <p class="in-stock">In Stock</p>
+                        <p class="price-available price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                        <button class="buy-btn add-item" id="add/{{ product.pk }}">Buy this</button>
+                        {% else %}
+                        <p class="out-of-stock">Out of stock</p>
+                        <p class="price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.price }}</p>
+                        <button class="buy-btn buy-off add-item" id="add/{{ product.pk }}">Buy this</button>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            {% endblock %}
+            {% endfor %}
+            {% if selected_page != None and pages|length > 1 %}
+            <nav class="pages">
+                <ul class="pagination justify-content-center">
+                    {% if selected_page <= pages|length and selected_page > 1 %}
+                    <li class="page-item"><a href="?page={{ selected_page|add:-1 }}" name="page-button" class="page-link" style="color: #6c757d;">Prev</a></li>
+                    {% endif %}
+                    {% for page in pages %}
+                    {% if q %}
+                    <li class="page-item"><a href="?q={{ q }}&page={{ page }}" name="page-button" class="page-link" style="color: #6c757d;">{{ page }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a href="?page={{ page }}" name="page-button" class="page-link" style="color: #6c757d;">{{ page }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if selected_page < pages|length and selected_page > 0 %}
+                    <li class="page-item"><a href="?page={{ selected_page|add:1 }}" name="page-button" class="page-link" style="color: #6c757d;">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            {% else %}
+            <div class="nothing">
+                <p class="text">Sorry. There is nothing</p>
+                <i class="fa-solid fa-ban"></i>
+            </div>
+            {% endif %}
+                
         </div>
+        {% endblock %}
+    </div>
 </div>
 {% endblock %}

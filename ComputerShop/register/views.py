@@ -64,22 +64,24 @@ class CreateUser(ContextMixin, FormView):
         return redirect('index')
 
 
-class ChangeUserPassword(FormView):
+class ChangeUserPassword(ContextMixin, FormView):
     form_class = ChangeUserPasswordForm
     template_name = 'main/login.html'
-    success_url = reverse_lazy('index')
     extra_context = {'title': 'Password Change'}
 
     def form_valid(self, form):
         username, password = form.cleaned_data['email'], form.cleaned_data['old_password']
-
         user = authenticate(username=username, password=password)
-
         login(request=self.request, user=user)
+
+        if self.request.user == 'AnonymousUser':
+            return redirect('change_password')
+
         if self.request.user.change_password(form.cleaned_data['old_password'], form.cleaned_data['new_password']):
-            return self.get_success_url()
+            return reverse_lazy('index')
         else:
-            return reverse_lazy('change_password')
+            logout(self.request)
+            return redirect('change_password')
 
 
 class Account(LoginRequiredMixin, ContextMixin, DetailView):
