@@ -4,20 +4,30 @@ from cart.models import Order, Category, Product, Storage, ProductImage, Product
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'get_customer_name', 'date_created', 'status', 'get_products_count', 'get_summary', 'is_paid', 'is_closed')
+    list_display = ('pk', 'get_customer_name', 'date_created',
+                    'status', 'get_products_count', 'get_summary',
+                    'is_paid', 'is_closed'
+                    )
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'category_name', 'category_slug', 'get_product_count')
+    list_display = ('pk', 'category_name', 'category_slug',
+                    'get_product_count'
+                    )
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'category', 'price', 'get_all_count', 'characteristics', 'is_visible', 'is_available')
+    list_display = ('pk', 'name', 'category',
+                    'price', 'get_all_count',
+                    'characteristics', 'is_visible', 'is_available'
+                    )
     list_filter = ('category', 'is_visible', 'is_available')
 
 
 class ProductItemAdmin(admin.ModelAdmin):
-    list_display = ('product', 'product_count', 'get_source', 'get_related_id')
+    list_display = ('product', 'product_count', 'get_source',
+                    'get_related_id'
+                    )
 
 
 class StorageAdmin(admin.ModelAdmin):

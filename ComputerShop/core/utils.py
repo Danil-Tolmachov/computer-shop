@@ -1,5 +1,5 @@
 from ComputerShop.settings import MEDIA_URL
-from cart.models import Category, Product
+from cart.models import Category
 
 
 class ContextMixin:
@@ -14,7 +14,6 @@ class ContextMixin:
 
         if str(user) != "AnonymousUser":
             context['user_name'] = user.first_name or user.email
-
         else:
             context['user_name'] = str(user)
 
@@ -23,7 +22,7 @@ class ContextMixin:
 
         if str(user) != "AnonymousUser":
             user_cart = user.cart.all()
-            context['user_cart'] = user_cart.all()
+            context['user_cart'] = user_cart
 
         return context
 
@@ -35,12 +34,12 @@ class Paginator(ContextMixin):
         from math import ceil
 
         objects = query.count()
-        self.pages_count = ceil(objects / Paginator.max_elements)
+        pages_count = ceil(objects / Paginator.max_elements)
 
         if self.request.GET.get("page"):
             page = int(self.request.GET.get("page"))
 
-            if page > self.pages_count:
+            if page > pages_count:
                 page = 1
         else:
             page = 1

@@ -47,10 +47,10 @@
                     <a href="{% url 'orders' %}">Orders</a>
                     <hr>
                     {% if user_name == "AnonymousUser" %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'site-login' %}">Login</a>
                     <a href="{% url 'register' %}">Sign on</a>
                     {% else %}
-                    <a href="{% url 'logout' %}">Logout</a>
+                    <a href="{% url 'site-logout' %}">Logout</a>
                     {% endif%}
                 </div>
             </div>
@@ -61,11 +61,9 @@
                 <div class="space" style="right: 70px; width: 70px; float: right;"></div>
                 <div class="dropdown-content cart-items" style="left: -263px;">
                     {% csrf_token %}
-                    {% if cart.pk %}
-                    {% for item in cart %}
+                    {% for item in user_cart %}
                     <div class="cancel"><a href="{% url 'product' item.product.pk %}">{{ item.product.name }}</a><button class="fa-solid fa-xmark del-item" id="{{ item.product.pk }}"></button></div>
                     {% endfor %}
-                    {% endif %}
                     <hr style="width: 300px;">
                     <a href="{% url 'cart' %}">Checkout</a>
                 </div>

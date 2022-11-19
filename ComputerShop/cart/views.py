@@ -43,28 +43,28 @@ class CartItemAdd(View):
 
     @csrf_exempt
     def post(self, request):
-        self.item_id = int(request.POST['id'])
-        self.product_obj = Product.objects.get(pk=self.item_id)
+        item_id = int(request.POST['id'])
+        product_obj = Product.objects.get(pk=item_id)
 
-        self.user_cart = request.user.cart
+        user_cart = request.user.cart
 
         # if selected product not in user cart products
-        if self.product_obj not in map(lambda x: x.product, self.user_cart.all()):
-            self.item = ProductItem.objects.create(product=self.product_obj, product_count=1)
+        if product_obj not in map(lambda x: x.product, user_cart.all()):
+            item = ProductItem.objects.create(product=product_obj, product_count=1)
 
-            request.user.cart.add(self.item)
+            request.user.cart.add(item)
 
             # item container context
             data = {
-                'pk': self.product_obj.pk,
-                'name': self.product_obj.name,
+                'pk': product_obj.pk,
+                'name': product_obj.name,
             }
 
             return JsonResponse(data=data, status=200)
         # else add 1 to product count
         else:
-            self.user_product = self.user_cart.filter(product=self.product_obj)
-            self.user_product.update(product_count=self.user_product.first().product_count+1)
+            user_product = user_cart.filter(product=product_obj)
+            user_product.update(product_count=user_product.first().product_count+1)
 
             data = {
 
@@ -76,19 +76,18 @@ class CartItemDelete(View):
 
     @csrf_exempt
     def post(self, request):
-        self.item_id = int(request.POST['id'])
-        self.user_cart = request.user.cart
+        item_id = int(request.POST['id'])
+        user_cart = request.user.cart
 
-        if Product.objects.get(pk=self.item_id) in map(lambda x: x.product, self.user_cart.all()):
-            self.product_obj = Product.objects.get(pk=self.item_id)
-
+        if Product.objects.get(pk=item_id) in map(lambda x: x.product, user_cart.all()):
+            product_obj = Product.objects.get(pk=item_id)
         else:
             data = {
                 'message': 'This product is not in your cart'
             }
             return JsonResponse(data=data, status=500)
 
-        self.user_cart.filter(product=self.product_obj).delete()
+        user_cart.filter(product=product_obj).delete()
         return JsonResponse(data={}, status=200)
 
 

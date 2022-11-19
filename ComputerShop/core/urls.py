@@ -3,17 +3,14 @@ from django.urls import path, include
 from core.views import Index, about_us, Catalog, ProductView
 
 urlpatterns = [
-    # Authentication system urls
-
-
-    # include other apps
+    #  Include apps
     path('', include('cart.urls')),
     path('', include('register.urls')),
 
-    # Api
+    #  Api
     path('api/', include('restapi.urls')),
 
-    # Views
+    #  Views
     path('', Index.as_view(), name='index'),
     path('catalog/<slug:category>/', Catalog.as_view(), name='catalog'),
     path('product/<int:product_id>/', ProductView.as_view(), name='product'),

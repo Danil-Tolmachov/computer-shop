@@ -1,14 +1,14 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.forms import EmailField
 from django import forms
 
 from register.models import ShopUser
 
 
 class LoginUserForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
 
+    def __init__(self, *args, **kwargs):
         super(LoginUserForm, self).__init__(*args, **kwargs)
+
         self.fields['username'].widget = forms.EmailInput(
             attrs={'class': 'field', 'placeholder': ''}
         )

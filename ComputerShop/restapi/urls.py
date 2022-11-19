@@ -3,13 +3,16 @@ from rest_framework import routers
 
 from restapi.views import ProductsApiViewSet
 
+#  Routers
 product_router = routers.DefaultRouter()
 product_router.register(r'product', ProductsApiViewSet, basename='product')
 
 
 urlpatterns = [
+    #  Views
     path('', include(product_router.urls), name='api_index'),
 
-    path('auth/', include('djoser.urls'), name='api_djoser'),
-    re_path('auth/', include('djoser.urls.authtoken'), name='api_login')  # LoginApiView.as_view(), name='api_login')
+    #  Djoser
+    path('auth/', include('djoser.urls')),
+    re_path('auth/', include('djoser.urls.authtoken'))  # LoginApiView.as_view(), name='api_login')
 ]

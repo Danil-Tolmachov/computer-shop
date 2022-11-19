@@ -4,14 +4,13 @@ from json import JSONDecodeError
 from django.contrib import admin
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import CharField, EmailField, ForeignKey, DateTimeField, BooleanField, ManyToManyField, JSONField
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
+from django.db.models import CharField, EmailField, DateTimeField, BooleanField, ManyToManyField, JSONField
 from django.utils import timezone
 
 from cart.models import Order, ProductItem
-from core.models import Notification
 from register.utils import send_verify_email
 
 
@@ -26,19 +25,17 @@ class ShopUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
 
         user.set_password(password)
-
         user.save(using=self._db)
 
         if not user.is_superuser:
             send_verify_email(user, email)
-
         return user
 
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
-        # need to verificate if default user
+        # False if you need verification if default user
         extra_fields.setdefault('is_active', False)
 
         return self._create_user(email, password, **extra_fields)
@@ -49,9 +46,9 @@ class ShopUserManager(BaseUserManager):
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
+
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-
         return self._create_user(email, password, **extra_fields)
 
 
@@ -87,8 +84,17 @@ class ShopUser(AbstractUser):
     def __str__(self):
         return self.email
 
-    def get_added_resents(self, product):
+    def change_password(self, old_password, new_password):
+        if old_password == new_password:
+            return False
 
+        try:
+            validate_password(password=new_password)
+        except ValidationError:
+            return False
+        self.set_password(new_password)
+
+    def get_added_resents(self, product):
         try:
             resents = json.loads(str(self.resents))
         except JSONDecodeError:
@@ -105,13 +111,12 @@ class ShopUser(AbstractUser):
     def get_resents(self):
         return json.loads(self.resents)
 
+    #  Creates Order object from user's actual cart
     def get_order(self, request, order_url):
         self.order = Order.objects.create(url=order_url)
         self.order.products.add(*request.user.cart.all())
-
         return self.order
 
     @admin.display(description='Active orders')
     def get_active_orders_count(self):
         return self.orders.filter(is_closed=False).count()
-

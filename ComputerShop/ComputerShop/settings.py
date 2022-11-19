@@ -101,6 +101,8 @@ DATABASES = {
 
 # Email Verification
 
+EMAIL_VERIFICATION = False
+
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

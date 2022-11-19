@@ -5,7 +5,6 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator as token_generator
 
-from cart.models import Cart
 from register.models import ShopUser
 from register.utils import get_uid, get_verify_token
 
@@ -38,7 +37,7 @@ class UserCreationTest(TestCase):
     def test_user_cart(self):
         user = ShopUser.objects.first()
 
-        self.assertEqual(user.cart, Cart.objects.first())
+        self.assertEqual(len(user.cart.all()), 0)
 
     @classmethod
     def tearDownClass(cls):

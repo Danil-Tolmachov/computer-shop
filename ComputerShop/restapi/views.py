@@ -13,6 +13,7 @@ from restapi.serializers import ProductSerializer, UserSerializer, UserUpdateSer
 
 
 class ShopUserAuthentication(BasicAuthentication):
+
     def authenticate(self, request):
         user, _ = super(ShopUserAuthentication, self).authenticate(request)
         login(request, user)
@@ -65,13 +66,13 @@ class ProductsApiViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False)
     def category(self, request):
         category = Category.objects.all()
-        return Response({'categories': (str(request.user), request.auth)})
+        return Response({'categories': list(category)})
 
     @action(methods=['get'], detail=True)
     def category_detail(self, request, pk=None):
         if pk:
-            print('pk')
             category = Category.objects.get(pk=pk)
+
             return Response({'category': category.category_name})
         else:
             return Response({'message': 'no pk'})
@@ -83,7 +84,6 @@ class ShopUserAPIViewSet(viewsets.ViewSet):
     user_model = get_user_model()
 
     def list_user(self, request):
-
         queryset = ShopUserAPIViewSet.user_model.objects.all()
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)

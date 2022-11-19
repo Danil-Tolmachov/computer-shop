@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models import ManyToManyField, CharField, ForeignKey, BooleanField, IntegerField, JSONField, ImageField, \
-    URLField, TextField, DateTimeField
+from django.db.models import ManyToManyField, CharField, ForeignKey,\
+                             BooleanField, IntegerField, JSONField,\
+                             ImageField, TextField, DateTimeField
 from django.utils import timezone
 
 

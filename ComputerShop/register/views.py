@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth import get_user_model, login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
@@ -12,6 +12,7 @@ from django.views.generic import FormView, DetailView
 
 from core.forms import LoginUserForm, CreateUserForm
 from core.utils import ContextMixin
+from register.forms import ChangeUserPasswordForm
 from register.models import ShopUser
 
 
@@ -61,6 +62,24 @@ class CreateUser(ContextMixin, FormView):
         ShopUser.objects.create_user(email=email, password=password, **form.cleaned_data)
 
         return redirect('index')
+
+
+class ChangeUserPassword(FormView):
+    form_class = ChangeUserPasswordForm
+    template_name = 'main/login.html'
+    success_url = reverse_lazy('index')
+    extra_context = {'title': 'Password Change'}
+
+    def form_valid(self, form):
+        username, password = form.cleaned_data['email'], form.cleaned_data['old_password']
+
+        user = authenticate(username=username, password=password)
+
+        login(request=self.request, user=user)
+        if self.request.user.change_password(form.cleaned_data['old_password'], form.cleaned_data['new_password']):
+            return self.get_success_url()
+        else:
+            return reverse_lazy('change_password')
 
 
 class Account(LoginRequiredMixin, ContextMixin, DetailView):

@@ -13,6 +13,9 @@
             <div class="form-error">{{ field.errors }}</div>
             {% endfor %}
             <button type="submit" class="reg-button text">Submit</button>
+            {% if title != 'Password Change' %}
+            <a href="{% url 'change_user'%}" class=" forgot-text">forgot you password?</a>
+            {% endif %}
         </form>
     </div>
 </div>

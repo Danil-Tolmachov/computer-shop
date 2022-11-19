@@ -218,14 +218,15 @@ nav li input:focus {
 	min-width: 300px;
 }
 
-.cart-items div {
+.cancel {
+	height: 50px;
+	display: flex;
+	flex-direction: row;
 }
 
 .cancel button {
 	height: 50px;
 	width: 50px;
-
-	top: 5px;
 
 	position: relative;
 	display: inline-block;
@@ -250,6 +251,9 @@ nav li input:focus {
 
 .cancel a {
 	display: inline-block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 
 	width: 250px;
 }
@@ -1231,6 +1235,23 @@ div .store-with-product:nth-child(odd) {
 	padding-left: 5px;
 }
 
+.forgot-text {
+	display: block;
+	width: fit-content;
+
+	margin: auto;
+	margin-top: 10px;
+
+	text-decoration: none;
+	color: #727272bf;
+}
+
+.forgot-text:hover {
+	color: #545454;
+
+	transition: 0.1s;
+}
+
 .text {
 	font-family: 'Nunito';
     font-style: normal;
@@ -1238,6 +1259,8 @@ div .store-with-product:nth-child(odd) {
     font-size: 24px;
     line-height: 33px;
 }
+
+
 
 /* ----------------/LoginPage/---------------- */
 
