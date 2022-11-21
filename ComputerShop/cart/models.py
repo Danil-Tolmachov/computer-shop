@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.db import models
-from django.db.models import ManyToManyField, CharField, ForeignKey,\
-                             BooleanField, IntegerField, JSONField,\
-                             ImageField, TextField, DateTimeField
+from django.db.models import ManyToManyField, CharField, ForeignKey, \
+    BooleanField, IntegerField, JSONField, \
+    ImageField, TextField, DateTimeField, QuerySet
 from django.utils import timezone
 
 
@@ -37,11 +37,11 @@ class Order(models.Model):
         return str(self.pk)
 
     @admin.display(description='Products count')
-    def get_products_count(self):
+    def get_products_count(self) -> int:
         return self.products.count()
 
     @admin.display(description='Customer')
-    def get_customer_name(self):
+    def get_customer_name(self) -> str:
         if self.shopuser.first():
             return self.shopuser.first().email
         else:
@@ -49,7 +49,7 @@ class Order(models.Model):
 
     # Get cart items summary price
     @admin.display(description='Summary')
-    def get_summary(self):
+    def get_summary(self) -> int:
         return sum(map(lambda x: x.get_summary(), self.products.all()))
 
 
@@ -65,7 +65,7 @@ class Category(models.Model):
         return self.category_name
 
     @admin.display(description='Products')
-    def get_product_count(self):
+    def get_product_count(self) -> int:
         return self.product_set.count()
 
 
@@ -97,11 +97,11 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def get_storage_objects(self):
+    def get_storage_objects(self) -> QuerySet:
         return self.product_item.filter(storage__isnull=False)
 
     @admin.display(description='Count')
-    def get_all_count(self):
+    def get_all_count(self) -> int:
         storages_count = sum(map(lambda x: x.product_count,
                                  self.product_item.filter(storage__isnull=False)
                                  ))
@@ -120,15 +120,15 @@ class ProductItem(models.Model):
     def __str__(self):
         return f"{self.product} / {self.product_count} / {self.get_source()}"
 
-    def get_summary(self):
+    def get_summary(self) -> int:
         return self.product.price * self.product_count
 
     @admin.display(description='Source')
-    def get_source(self):
+    def get_source(self) -> str:
         return 'Order' if self.order.first() else 'Storage' if self.storage.first() else 'Cart'
 
     @admin.display(description='Related source')
-    def get_related_id(self):
+    def get_related_id(self) -> str:
         return self.order.first() or self.user.first()
 
 
@@ -140,7 +140,7 @@ class Storage(models.Model):
     products = ManyToManyField('ProductItem', related_name='storage', blank=True)
 
     @admin.display(description='Positions count')
-    def get_positions_count(self):
+    def get_positions_count(self) -> int:
         return self.products.count() if self.products else 0
 
     def __str__(self):

@@ -17,7 +17,7 @@ from register.utils import send_verify_email
 class ShopUserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email, password, **extra_fields):
+    def _create_user(self, email: str, password: str, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
 
@@ -31,7 +31,7 @@ class ShopUserManager(BaseUserManager):
             send_verify_email(user, email)
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email: str, password: str = None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
@@ -40,7 +40,7 @@ class ShopUserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email: str, password: str, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -85,18 +85,19 @@ class ShopUser(AbstractUser):
         return self.email
 
     def change_password(self, old_password, new_password):
-        if old_password == new_password:
 
+        if old_password == new_password:
             return False
 
         try:
             validate_password(password=new_password)
         except ValidationError:
-            print('there2')
             return False
+
         self.set_password(new_password)
         self.save()
 
+    #  add resently viewed product and get resents list with it
     def get_added_resents(self, product):
         try:
             resents = json.loads(str(self.resents))
@@ -112,10 +113,10 @@ class ShopUser(AbstractUser):
         return json.dumps(resents[-10:])
 
     def get_resents(self):
-        return json.loads(self.resents)
+        return json.loads(str(self.resents))
 
     #  Creates Order object from user's actual cart
-    def get_order(self, request, order_url):
+    def get_order(self, request, order_url: str):
         self.order = Order.objects.create(url=order_url)
         self.order.products.add(*request.user.cart.all())
         return self.order

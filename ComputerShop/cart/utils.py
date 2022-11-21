@@ -4,9 +4,9 @@ from django.utils.http import urlsafe_base64_encode
 from cart.models import Order
 
 
-def get_new_order_url():
+def get_new_order_url() -> str:
     return urlsafe_base64_encode(force_bytes(Order.objects.count() + 1))
 
 
-def make_order(request, order_url):
+def make_order(request, order_url: str) -> Order:
     return request.user.get_order(request, order_url)

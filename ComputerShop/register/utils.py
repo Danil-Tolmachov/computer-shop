@@ -7,27 +7,32 @@ from django.core.mail import send_mail
 from ComputerShop.settings import EMAIL_HOST_USER, EMAIL_VERIFICATION
 
 
-def get_uid(user):
+def get_uid(user) -> str:
     return urlsafe_base64_encode(force_bytes(user.pk))
 
 
-def get_verify_token(user):
+def get_verify_token(user) -> str:
     return token_generator.make_token(user)
 
 
-def send_verify_email(user, to_email, template='email/verification_email.html', from_email=EMAIL_HOST_USER):
-
+def get_verify_email_message(user, template: str = 'email/verification_email.html'):
     uid = get_uid(user)
     token = get_verify_token(user)
 
-    mail_subject = '"ComputerShop" account verification'
+    domain = "127.0.0.1:8000"
 
     message = render_to_string(template, {
         'user': user,
         'uid': uid,
         'token': token,
-        'domain': "127.0.0.1:8000",
+        'domain': domain,
     })
+    return message
+
+
+def send_verify_email(user, to_email: str, from_email: str = EMAIL_HOST_USER) -> None:
+    mail_subject = '"ComputerShop" account verification'
+    message = get_verify_email_message(user)
 
     if EMAIL_VERIFICATION:
         send_mail(mail_subject, message, from_email, [to_email])

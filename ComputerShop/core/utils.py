@@ -1,4 +1,3 @@
-from ComputerShop.settings import MEDIA_URL
 from cart.models import Category
 
 
@@ -6,21 +5,20 @@ class ContextMixin:
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = self.request.user
+        user_auth = self.request.user.is_authenticated
 
         context = super().get_context_data(**kwargs)
         context['selected_page'] = int(self.request.GET.get("page")) if self.request.GET.get("page") else 1
         context['categories'] = Category.objects.all()
-        context['MEDIA_URL'] = MEDIA_URL
+        context['auth'] = int(user_auth)
 
-        if str(user) != "AnonymousUser":
+        if user_auth:
             context['user_name'] = user.first_name or user.email
-        else:
-            context['user_name'] = str(user)
 
         if hasattr(self, "pages_count"):
             context['pages'] = list(range(1, self.pages_count + 1))
 
-        if str(user) != "AnonymousUser":
+        if user_auth:
             user_cart = user.cart.all()
             context['user_cart'] = user_cart
 
@@ -33,8 +31,8 @@ class Paginator(ContextMixin):
     def get_queryset(self, query=None):
         from math import ceil
 
-        objects = query.count()
-        pages_count = ceil(objects / Paginator.max_elements)
+        objects_count = query.count()
+        pages_count: int = ceil(objects_count / Paginator.max_elements)
         self.pages_count = pages_count
 
         if self.request.GET.get("page"):

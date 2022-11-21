@@ -25,11 +25,11 @@ class ProductAdmin(admin.ModelAdmin):
     actions = ['products_deactivate', 'products_activate']
 
     @admin.action(description='Deactivate products')
-    def products_deactivate(modeladmin, request, queryset):
+    def products_deactivate(modeladmin, request, queryset) -> None:
         queryset.update(is_visible=0)
 
     @admin.action(description='Activate products')
-    def products_activate(modeladmin, request, queryset):
+    def products_activate(modeladmin, request, queryset) -> None:
         queryset.update(is_visible=1)
 
 

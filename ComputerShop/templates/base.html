@@ -36,7 +36,7 @@
             <li><a href="{% url 'about_us' %}">About Us</a></li>
             <li class="right-side-nav"><input type="text" name="search" placeholder="&#xF002" id="search"></li>
             <div class="dropdown"  id="account">
-                {% if user_name == 'AnonymousUser' %}
+                {% if not auth %}
                 <li class="right-side-nav dropbtn"><a class="user-name">Account<span><i class="fa-solid fa-arrow-turn-down"></i></span></a></li>
                 {% else %}
                 <li class="right-side-nav dropbtn"><a><p class="user-name">{{ user_name }}<span><i class="fa-solid fa-arrow-turn-down"></i></span></p></a></li>
@@ -46,7 +46,7 @@
                     <a href="{% url 'account' %}">My Account</a>
                     <a href="{% url 'orders' %}">Orders</a>
                     <hr>
-                    {% if user_name == 'AnonymousUser' %}
+                    {% if not auth %}
                     <a href="{% url 'site-login' %}">Login</a>
                     <a href="{% url 'register' %}">Sign on</a>
                     {% else %}

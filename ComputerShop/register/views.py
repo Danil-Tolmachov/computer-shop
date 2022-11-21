@@ -19,7 +19,7 @@ from register.models import ShopUser
 # Account activation
 class Activation(View):
 
-    def get(self, request, uidb64, token):
+    def get(self, request, uidb64: str, token: str):
         User = get_user_model()
 
         try:
@@ -71,10 +71,11 @@ class ChangeUserPassword(ContextMixin, FormView):
 
     def form_valid(self, form):
         username, password = form.cleaned_data['email'], form.cleaned_data['old_password']
+
         user = authenticate(username=username, password=password)
         login(request=self.request, user=user)
 
-        if self.request.user == 'AnonymousUser':
+        if self.request.auth is not None:
             return redirect('change_password')
 
         if self.request.user.change_password(form.cleaned_data['old_password'], form.cleaned_data['new_password']):

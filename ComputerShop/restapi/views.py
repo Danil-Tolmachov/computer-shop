@@ -75,7 +75,7 @@ class ProductsApiViewSet(viewsets.ModelViewSet):
 
             return Response({'category': category.category_name})
         else:
-            return Response({'message': 'no pk'})
+            return Response({'message': 'no id'})
 
 
 class ShopUserAPIViewSet(viewsets.ViewSet):
@@ -88,12 +88,12 @@ class ShopUserAPIViewSet(viewsets.ViewSet):
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def detail_user(self, request, user_id):
+    def detail_user(self, request, user_id: int):
         user = ShopUserAPIViewSet.user_model.objects.get(pk=user_id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-    def put(self, request, user_id):
+    def put(self, request, user_id: int):
         fields_data = request.POST
         serializer = UserUpdateSerializer(data=fields_data)
         serializer.is_valid()
@@ -106,7 +106,7 @@ class ShopUserAPIViewSet(viewsets.ViewSet):
         user.update(**serializer.validated_data)
         return self.detail_user(request, user_id)
 
-    def delete(self, request, user_id):
+    def delete(self, request, user_id: int):
         try:
             user = ShopUserAPIViewSet.user_model.objects.get(pk=user_id)
         except ObjectDoesNotExist:
