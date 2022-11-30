@@ -1,9 +1,11 @@
+import json
+
 from django.db.models import Prefetch, Case, When
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 from cart.models import Product, Category, ProductImage
-from core.utils import Paginator, ContextMixin
+from core.utils import Paginator, ContextMixin, add_resent_by_cookie
 
 
 class Index(Paginator, ListView):
@@ -50,26 +52,51 @@ class ProductView(ContextMixin, DetailView):
     context_object_name = 'product'
     pk_url_kwarg = 'product_id'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        resents_list = self.request.user.get_resents()
-
-        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(resents_list)])
-        resents_query = Product.objects.filter(pk__in=resents_list).order_by(preserved)
-
-        context['resents'] = resents_query
-        context['title'] = Product.objects.get(pk=self.kwargs['product_id']).name
-        return context
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.cookies_to_set = {}
 
     def get_object(self, *args, **kwargs):
         _object = super().get_object(*args, **kwargs)
-        user = self.request.user
 
-        user.resents = user.get_added_resents(_object.pk)
-        user.save(update_fields=["resents"])
+        if self.request.user.is_authenticated:
+            user = self.request.user
+
+            user.resents = user.get_added_resents(_object.pk)
+            user.save(update_fields=["resents"])
+        else:
+            self.resents = add_resent_by_cookie(self.request, _object.pk)
+            self.cookies_to_set['resents'] = self.resents
 
         return _object
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            resents_list = self.request.user.get_resents()
+        else:
+            resents_list = self.resents
+
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(resents_list)])
+        resents_query = Product.objects.filter(pk__in=resents_list).order_by(preserved)
+        context['resents'] = resents_query
+
+        context['title'] = Product.objects.only('pk', 'name').get(pk=self.kwargs['product_id']).name
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(ProductView, self).render_to_response(context, **response_kwargs)
+
+        for key, cookie in self.cookies_to_set.items():
+            response.set_cookie(key, cookie)
+
+        return response
+
+
+
+
+
 
 
 def about_us(request):

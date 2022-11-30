@@ -1,4 +1,5 @@
 {% load static %}
+{% load cache %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,7 @@
     {% block nav %}
     <nav>
         <ul id="nav">
+            {% cache 60 categories %}
             <div class="dropdown" id="catalog">
                 <li ><a id="catalog-btn" style="transition: 0.4s;">Catalog</a></li>
                 <div class="space" style="height: 20px;"></div>
@@ -31,6 +33,7 @@
                 </div>
                 <script type="text/javascript" src="{% static 'core/js/nav-script.js' %}"></script>
             </div>
+            {% endcache %}
             <li id="nav-hr"><hr></li>
             <li><a href="{% url 'index' %}">Main Page</a></li>
             <li><a href="{% url 'about_us' %}">About Us</a></li>

@@ -1,3 +1,7 @@
+import json
+
+from django.core.cache import cache
+
 from cart.models import Category
 
 
@@ -9,7 +13,7 @@ class ContextMixin:
 
         context = super().get_context_data(**kwargs)
         context['selected_page'] = int(self.request.GET.get("page")) if self.request.GET.get("page") else 1
-        context['categories'] = Category.objects.all()
+        context['categories'] = cache.get_or_set('categories', Category.objects.all(), timeout=20)
         context['auth'] = int(user_auth)
 
         if user_auth:
@@ -46,3 +50,13 @@ class Paginator(ContextMixin):
         start_object = page * Paginator.max_elements - Paginator.max_elements
         end_object = page * Paginator.max_elements
         return query[start_object:end_object]
+
+
+def add_resent_by_cookie(request, product):
+    resents = json.loads(request.COOKIES.get('resents') or '[]')
+
+    if product in resents:
+        resents.remove(product)
+    resents.append(product)
+
+    return resents[-10:]

@@ -16,7 +16,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'django-insecure-t4$h^=!tok7)8%u$1rgzwewu7gxv_&+ll2lak(h&jpzfr#o7j%
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -85,6 +83,9 @@ WSGI_APPLICATION = 'ComputerShop.wsgi.application'
 
 AUTH_USER_MODEL = 'register.ShopUser'
 
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -109,7 +110,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'postmaster@sandbox610dec4b8da547c0901b9ec24b688d0c.mailgun.org'
 EMAIL_HOST_PASSWORD = '06c46ca939564b6fb1bb4353ba6c80d4-31eedc68-e50e8eae'
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -128,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -140,7 +139,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -150,9 +148,6 @@ STATICFILES_DIRS = ['static/']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
 MEDIA_URL = 'media/'
-
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -180,4 +175,13 @@ REST_FRAMEWORK = {
         'restapi.permissions.IsAdminOrReadOnly',
     ),
 
+}
+
+# Caches
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache'),
+    }
 }

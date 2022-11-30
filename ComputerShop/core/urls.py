@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.views.decorators.cache import cache_page
 
 from core.views import Index, about_us, Catalog, ProductView
 
