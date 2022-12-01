@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
+import environ
 from pathlib import Path
+
+# Environment variables initialization
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -20,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t4$h^=!tok7)8%u$1rgzwewu7gxv_&+ll2lak(h&jpzfr#o7j%'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -92,23 +98,23 @@ LOGOUT_REDIRECT_URL = "/"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shop_db',
-        'USER': 'shop_db_user',
-        'PASSWORD': 'q123',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASS'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
 # Email Verification
 
-EMAIL_VERIFICATION = False
+EMAIL_VERIFICATION = True
 
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'postmaster@sandbox610dec4b8da547c0901b9ec24b688d0c.mailgun.org'
-EMAIL_HOST_PASSWORD = '06c46ca939564b6fb1bb4353ba6c80d4-31eedc68-e50e8eae'
+EMAIL_HOST = env('SMTP_HOST')
+EMAIL_PORT = env('SMTP_PORT')
+EMAIL_USE_TLS = env('SMTP_USE_TLS')
+EMAIL_HOST_USER = env('SMTP_USER')
+EMAIL_HOST_PASSWORD = env('SMTP_PASS')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -159,7 +165,9 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
 # Rest framework
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',

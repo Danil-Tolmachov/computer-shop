@@ -35,7 +35,7 @@ class ShopUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
-        # False if you need verification if default user
+        # Make False if you don't need verification
         extra_fields.setdefault('is_active', False)
 
         return self._create_user(email, password, **extra_fields)
