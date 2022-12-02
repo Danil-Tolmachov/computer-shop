@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
     #  Apps
     'core',
     'cart',
@@ -50,8 +49,10 @@ INSTALLED_APPS = [
     #   Rest
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser'
-
+    'djoser',
+    # packages
+    'debug_toolbar',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -115,6 +116,12 @@ EMAIL_PORT = env('SMTP_PORT')
 EMAIL_USE_TLS = env('SMTP_USE_TLS')
 EMAIL_HOST_USER = env('SMTP_USER')
 EMAIL_HOST_PASSWORD = env('SMTP_PASS')
+
+# reCaptcha settings
+
+RECAPTCHA_PUBLIC_KEY = env('CAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = env('CAPTCHA_PRIVATE_KEY')
+RECAPTCHA_DOMAIN = 'www.recaptcha.net'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

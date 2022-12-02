@@ -58,6 +58,7 @@ class CreateUser(ContextMixin, FormView):
         email = form.cleaned_data.pop('email')
         password = form.cleaned_data.pop('password1')
         password2 = form.cleaned_data.pop('password2')
+        captcha = form.cleaned_data.pop('captcha')
 
         ShopUser.objects.create_user(email=email, password=password, **form.cleaned_data)
 
