@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import ShopUser
+from auth_app.models import ShopUser
 
 
 class ShopUserAdmin(admin.ModelAdmin):

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from register.views import Activation, LoginUser, CreateUser, logout_user, Account, ChangeUserPassword
+from auth_app.views import Activation, LoginUser, CreateUser, logout_user, Account, ChangeUserPassword
 
 urlpatterns = [
     # Authentication system urls

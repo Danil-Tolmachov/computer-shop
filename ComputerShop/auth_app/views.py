@@ -12,8 +12,8 @@ from django.views.generic import FormView, DetailView
 
 from core.forms import LoginUserForm, CreateUserForm
 from core.utils import ContextMixin
-from register.forms import ChangeUserPasswordForm
-from register.models import ShopUser
+from auth_app.forms import ChangeUserPasswordForm
+from auth_app.models import ShopUser
 
 
 # Account activation

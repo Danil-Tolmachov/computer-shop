@@ -11,7 +11,7 @@ from django.db.models import CharField, EmailField, DateTimeField, BooleanField,
 from django.utils import timezone
 
 from cart.models import Order, ProductItem
-from register.utils import send_verify_email
+from auth_app.utils import send_verify_email
 
 
 class ShopUserManager(BaseUserManager):
