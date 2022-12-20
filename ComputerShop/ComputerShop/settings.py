@@ -13,10 +13,6 @@ import os.path
 import environ
 from pathlib import Path
 
-# Environment variables initialization
-
-env = environ.Env()
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -24,6 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+
+# Environment variables initialization
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR.parent, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     #  Apps
     'core',
     'cart',
-    'register',
+    'auth_app',
     #   Rest
     'rest_framework',
     'rest_framework.authtoken',
@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'ComputerShop.wsgi.application'
 
 #  User system
 
-AUTH_USER_MODEL = 'register.ShopUser'
+AUTH_USER_MODEL = 'auth_app.ShopUser'
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
@@ -97,14 +97,7 @@ LOGOUT_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASS'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
-    }
+    'default': env.db()
 }
 
 # Email Verification
