@@ -3,7 +3,7 @@ from captcha.widgets import ReCaptchaV2Checkbox
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
 
-from register.models import ShopUser
+from auth_app.models import ShopUser
 
 
 class LoginUserForm(AuthenticationForm):

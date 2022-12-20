@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from cart.models import Product
-from register.models import ShopUser
+from auth_app.models import ShopUser
 
 
 class ProductSerializer(serializers.ModelSerializer):

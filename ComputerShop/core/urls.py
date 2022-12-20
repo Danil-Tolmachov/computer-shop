@@ -6,7 +6,7 @@ from core.views import Index, about_us, Catalog, ProductView
 urlpatterns = [
     #  Include apps
     path('', include('cart.urls')),
-    path('', include('register.urls')),
+    path('', include('auth_app.urls')),
 
     #  Api
     path('api/', include('restapi.urls')),
