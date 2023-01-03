@@ -6,5 +6,5 @@ django-debug-toolbar==3.8.1
 djangorestframework==3.14.0
 djoser==2.1.0
 
-psycopg2==2.9.5
+psycopg2-binary==2.9.5
 Pillow==9.3.0
