@@ -56,12 +56,13 @@ CAPTCHA_PRIVATE_KEY=...
 ```
 **3. Run docker compose to create db**
 ```sh 
-docker-compose -f docker-compose.dev.yml run db
+docker compose -f "docker-compose.dev.yml" up -d --build
 ```
-**3. Run app**
+**4. Run app**
 ```sh 
 cd ComputerShop/
 python manage.py makemigrations
+python manage.py makemigrations auth_app
 python manage.py migrate
 python manage.py runserver
 ```
