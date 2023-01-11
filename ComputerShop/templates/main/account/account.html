@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-block">
+
+    <div class="products-inner account-inner">
+        <div class="left-nav">
+            {% for button in account_buttons %}
+            <button id="{{ forloop.counter0 }}">{{ button }}</button>
+            {% endfor %}
+            <form action="{% url 'site-logout'%}">
+                <button type="submit">Quit</button>
+            </form>
+        </div>
+        <div class="main-account">
+            {# Includes pages content from the account_pages #}
+            {% for path in account_pages %}
+            <div class="menu-page">
+                {% include path %}
+            </div>
+            {% endfor %}   
+        </div>
+    
+    </div>
+    <script type="text/javascript" src="{% static 'core/js/account_page.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/change_user.js' %}"></script>
+</div>
+{% endblock %}
+
+{% block import %}
+{% endblock %}

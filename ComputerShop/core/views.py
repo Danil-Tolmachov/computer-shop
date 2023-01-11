@@ -3,6 +3,7 @@ import json
 from django.db.models import Prefetch, Case, When
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from core.queries import filter_query_by_name_content, get_products_by_category
 
 from cart.models import Product, Category, ProductImage
 from core.utils import Paginator, ContextMixin, add_resent_by_cookie
@@ -10,38 +11,54 @@ from core.utils import Paginator, ContextMixin, add_resent_by_cookie
 
 class Index(Paginator, ListView):
     model = Product
+    product_image_model = ProductImage
     context_object_name = 'products'
     template_name = 'main/index.html'
     extra_context = {'title': 'ComputerShop'}
 
-    def get_queryset(self, query=None):
-        query = Product.objects.filter(is_visible=True).select_related('category').order_by("-pk")
-        prefetch = Prefetch('images', queryset=ProductImage.objects.distinct(), to_attr='photo')
+    def get_queryset(self):
+        query = Product.objects.filter(is_visible=True)
 
-        query = super().get_queryset(query.prefetch_related(prefetch))
+        # Prefectching photos
+        prefetch = Prefetch('images', queryset=self.product_image_model.objects.distinct(), to_attr='photo')
+        query = query.select_related('category').order_by('-pk')
+        query = query.prefetch_related(prefetch)
+
         return query
 
 
 class Catalog(Paginator, ListView):
     model = Product
     category_model = Category
+    product_image_model = ProductImage
 
     context_object_name = 'products'
     template_name = 'main/catalog.html'
     extra_context = {'title': 'Catalog'}
 
     def get_queryset(self, query=None):
-        if self.kwargs:
-            category = self.category_model.objects.get(category_slug=self.kwargs['category'])
+        category = self.kwargs['category']
 
-            query = self.model.objects.filter(category=category.pk).select_related('category')
-            prefetch = Prefetch('images', queryset=ProductImage.objects.distinct(), to_attr='photo')
+        if not self.kwargs and self.request.GET:
+            query = Product.objects.filter(is_visible=True).order_by('-pk')
+            query = super().get_queryset(query)
 
-            query = super().get_queryset(query.prefetch_related(prefetch))
-            return query
+        # Category selection
+        if category == 'all':
+            query = self.model.objects.all()
+        elif category:
+            query = get_products_by_category(self.category_model, self.model, self.kwargs['category'])
+        
+        
+        # Search selection
+        if self.request.GET:
+            content = self.request.GET['search']
+            query = filter_query_by_name_content(query, content)
 
-        query = Product.objects.filter(is_visible=True).order_by('-pk')
-        query = super().get_queryset(query)
+        # Prefetching photos
+        prefetch = Prefetch('images', queryset=self.product_image_model.objects.distinct(), to_attr='photo')
+        query = query.select_related('category').order_by('-pk')
+        query = query.prefetch_related(prefetch)
 
         return query
 
@@ -92,11 +109,6 @@ class ProductView(ContextMixin, DetailView):
             response.set_cookie(key, cookie)
 
         return response
-
-
-
-
-
 
 
 def about_us(request):

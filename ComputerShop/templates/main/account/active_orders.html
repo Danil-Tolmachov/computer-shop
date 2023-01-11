@@ -1,0 +1,21 @@
+<div class="orders-list">
+    <div style="height: 100%;">
+        {% for name, order in active_orders.items %}
+        <div class="order-big">
+            <div style="padding: 10px;">
+                <a href="{% url 'order' order.encoded %}" class="text link order-header">Order № <strong>{{ order.id }}</strong></a>    
+                <ul class="order-items-list">
+                    {% for item in order.products.all %}
+                        <li class="order-font">{{ item.product.category }} {{ item.product.name }} ( <strong>{{ item.product_count }}</strong> ): <strong>${{ item.get_summary }}</strong></li>
+                    {% endfor %}
+                </ul>
+                <div style="margin-top: auto;">
+                    <p class="order-font" style="margin-left: 10px;">Status: {{ order.status|title }} {{ order.status_comment }}</p>
+                    <p class="order-font" style="margin-left: 10px;">Sum: ${{ order.get_sum }}</p>
+                    <a class="text link button-more" href="{% url 'order' order.encoded %}">More about order</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

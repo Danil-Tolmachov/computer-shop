@@ -9,14 +9,22 @@
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Nunito&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Nunito&family=Roboto&display=swap&family=Rubik&display=swap&family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6fbd114e5d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'core/js/ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/ui_scripts.js' %}"></script>
+    {% block import %}
+    {% endblock %}
     <title>{{ title }}</title>
 </head>
 <body>
+
+    {% block message %}
+    <!-- Message window -->
+    {% include 'message_window.html' %}
+    {% endblock %}
+
     {% block nav %}
     <nav>
         <ul id="nav">
@@ -31,13 +39,12 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <script type="text/javascript" src="{% static 'core/js/nav-script.js' %}"></script>
             </div>
             {% endcache %}
             <li id="nav-hr"><hr></li>
             <li><a href="{% url 'index' %}">Main Page</a></li>
             <li><a href="{% url 'about_us' %}">About Us</a></li>
-            <li class="right-side-nav"><input type="text" name="search" placeholder="&#xF002" id="search"></li>
+            <li class="right-side-nav"><input type="text" name="search" placeholder="&#xF002" id="search" action="{% url 'catalog' 'all' %}"></li>
             <div class="dropdown"  id="account">
                 {% if not auth %}
                 <li class="right-side-nav dropbtn"><a class="user-name">Account<span><i class="fa-solid fa-arrow-turn-down"></i></span></a></li>

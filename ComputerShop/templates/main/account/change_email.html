@@ -1,0 +1,12 @@
+<form class="change-form">
+    {% csrf_token %}
+    <label for="password" class="text">Password</label>
+    <input id="sas" name="password" type="password" class="field">    
+
+    <label for="new_email1" class="text">New Email</label>
+    <input name="new_email1" class="field">
+    
+    <label for="new_email2" class="text">Confirm New Email</label>
+    <input name="new_email2" class="field">
+    <a id="change-email-form" class="reg-button text">Submit</a>
+</form>

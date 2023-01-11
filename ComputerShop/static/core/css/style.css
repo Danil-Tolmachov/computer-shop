@@ -13,6 +13,71 @@ body::-webkit-scrollbar {
 	color: inherit;
 }
 
+/* ----------------Message Window---------------- */
+.message-window {
+	width: 600px;
+	min-height: 300px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-color: #efefefcc;
+	backdrop-filter: blur(10px);
+	border-radius: 24px;
+}
+
+.message-window-container {
+	position: fixed;
+
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	
+	margin: auto;
+	width: 600px;
+	height: fit-content;
+
+	z-index: 10001;
+}
+
+.message-window p {
+	text-align: center;
+}
+
+.message-window p:first-child {
+	font-size: 25px;
+    font-family: 'Rubik';
+    margin: 13px;
+}
+
+.message-window p:nth-child(2) {
+	font-family: 'Source Sans Pro';
+    font-size: 21px;
+
+	margin: 13px;
+}
+
+.message-window-container button {
+	height: 50px;
+	width: 100%;
+
+	display: block;
+	margin-top: auto;
+
+	background-color: #dbdbdb;
+
+	border: none;
+	border-radius: 24px;
+}
+
+.message-window-container div {
+	height: 50px;
+
+	padding: 4px;
+    margin-top: auto;
+}
+/* ----------------/Message Window/---------------- */
 
 /* ----------------Nav---------------- */
 nav {
@@ -69,6 +134,8 @@ nav li a {
 
 	color: #EFF1EC;
 	text-decoration: none;
+	-webkit-user-drag: none;
+	user-select: none;
 }
 
 nav li a:hover {
@@ -152,6 +219,14 @@ nav li input:focus {
   	background-color: #191919e0;
   	border-bottom-right-radius: 32px;
   	border-bottom-left-radius: 32px;
+
+	user-select: none;
+	-webkit-user-drag: none;
+}
+
+.dropdown-content a {
+	user-select: none;
+	-webkit-user-drag: none;
 }
 
 .dropdown .space {
@@ -277,6 +352,10 @@ nav li input:focus {
 	font-weight: 900;
 }
 
+#search:focus {
+	font-family: 'Nunito';
+}
+
 #account {
 
 	float: right;
@@ -325,7 +404,6 @@ nav li input:focus {
 }
 
 .main {
-	margin: 30px;
 	padding: 20px;
 
 	background-color: white;
@@ -414,13 +492,14 @@ nav li input:focus {
 
 	background-color: white;
 	border-radius: 12px;
-	border-top-left-radius: 0px;
 	padding: 10px;
 
 	transition: 0.1s;
 }
 
 .product {
+	display: flex;
+
 	height: 220px;
 
 	border-radius: 10px;
@@ -434,9 +513,12 @@ nav li input:focus {
 }
 
 .image-container {
-	display: inline-block;
+	width: 20%;
+}
 
-	width: 25%;
+.image-container a {
+	user-select: none;
+	-webkit-user-drag: none;
 }
 
 .product-img {
@@ -444,13 +526,13 @@ nav li input:focus {
 
 	max-height: 200px;
 	max-width: 280px;
+
+	user-select: none;
+	-webkit-user-drag: none;
 }
 
 .product-info {
-	display: inline-block;
-
-	float: right;
-	width: 75%;
+	width: 80%;
 	height: 220px;
 
 }
@@ -1193,12 +1275,13 @@ div .store-with-product:nth-child(odd) {
 
 	margin-top: 20px;
 	width: 100%;
-	height: 700px;
+	min-height: 100%;
 }
 
 .login-content {
 	width: 450px;
-	height: 650px;
+	min-height: 700px;
+	max-height: 2000px;
 
 	display: flex;
 	justify-content: center;
@@ -1209,17 +1292,39 @@ div .store-with-product:nth-child(odd) {
 	background-color: white;
 }
 
+.login-content form {
+	display: flex;
+	flex-direction: column;
+}
+
+.login-content div {
+	margin: auto;
+}
+
+.login-content label {
+	margin: 10px;
+}
+
+.login-content form {
+	margin: 20px;
+}
+
 .reg-button {
 	width: 200px;
 	height: 35px;
 
-	margin: auto;
+	margin: 0 auto 0 auto;
 	margin-top: 40px;
 	display: block;
 
 	border-color: transparent;
 	border-radius: 20px;
 	background-color: #c6d1d0;
+
+	cursor: pointer;
+
+	-webkit-user-drag: none;
+	user-select: none;
 }
 
 .field {
@@ -1359,10 +1464,6 @@ div .store-with-product:nth-child(odd) {
 	bottom: 15px;
 }
 
-.price-cart {
-
-}
-
 .cart-product-interact {
 	display: flex;
 	flex-direction: row;
@@ -1399,6 +1500,8 @@ div .store-with-product:nth-child(odd) {
 /* ----------------AccountPage---------------- */
 
 .account-inner {
+	border-radius: 35px;
+	border-top-right-radius: 12px;
 	padding: 0;
 	height: 800px;
 
@@ -1409,25 +1512,36 @@ div .store-with-product:nth-child(odd) {
 }
 
 .left-nav {
+	display: flex;
+	flex-direction: column;
+	grid-gap: 5px;
+
+	padding: 10px;
 	width: 20%;
 	min-width: 100px;
-	height: 100%;
+	height: calc(100% - 20px);
 }
-
-.left-nav button:first-child {
-	border-top-left-radius: 12px;
-}
-
-
 
 .left-nav button {
 	width: 100%;
-	height: 50px;
+	height: 60px;
 
 	display: block;
 
-	background-color: transparent;
+	background-color: #00000003;
+
+	border-radius: 25px;
 	border: none;
+
+	font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+
+	transition: 0.1s;
+
+	-webkit-user-drag: none;
+	user-select: none;
 }
 
 .left-nav button:hover {
@@ -1436,30 +1550,43 @@ div .store-with-product:nth-child(odd) {
 	transition: 0.11s;
 }
 
+.left-nav form {
+	margin-top: auto;
+}
+
 .main-account {
 	width: 80%;
+	min-width: 400px;
 	height: 100%;
 
 	box-shadow: 0 30px 40px 40px rgba(0,0,0,.03);
-}
-
-.main-account dl {
-	margin: 0;
-	height: 90%;
 }
 
 .account-buttons {
 	height: 10%;
 }
 
-.account-buttons button {
-	height: 100%;
-	
+.account-buttons div {
+	height: calc(100% - 16px);
+
+	padding: 8px;
+	padding-left: 0;
+
 	display: inline-block;
 	float: right;
+}
+
+.account-buttons button {
+	height: 100%;
 
 	border: none;
-	background-color: transparent;
+	background-color: #0000000a;
+
+	border-radius: 8px;
+
+	font-size: 14px;
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
 }
 
 .account-buttons button:hover {
@@ -1468,4 +1595,235 @@ div .store-with-product:nth-child(odd) {
 	transition: 0.11s; 
 }
 
+.account-buttons div:first-child button {
+	border-bottom-right-radius: 30px;
+}
+
+.menu-page:not(:first-child) {
+	display: none;
+}
+
+.menu-page {
+	height: calc(100% - 20px);
+	width: calc(80% - 32px);;
+	position: absolute;
+	
+}
+
+.menu-page dl {
+	padding: 20px;
+
+	font-size: 18px;
+	font-family: 'Rubik';
+}
+
+.menu-page dd {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.menu-page div dl {
+	margin: 0;
+	height: calc(100% - 40px);
+
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.account-field {
+	width: 280px;
+	height: 35px;
+
+	margin: 7px;
+	padding-left: 10px;
+	padding-right: 10px;
+
+	border-color: transparent;
+	border-radius: 20px;
+	background-color: #cee6e8;
+}
+
+.account-field::placeholder {
+	padding-left: 5px;
+}
+
+.change-form {
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	flex-direction: column;
+}
+
+.change-form input {
+	align-self: center;
+}
+
+.orders-list {
+	width: calc(100% - 20px);
+	height: calc(100% - 20px);
+
+	padding: 10px;
+}
+
+.orders-list > div {
+	border-radius: 20px;
+
+	overflow-x: scroll;
+	white-space: nowrap;
+}
+
+.orders-list > div::-webkit-scrollbar {
+	height: 17px;
+	width: 10px;
+}
+
+.orders-list > div:hover::-webkit-scrollbar-thumb {
+	background-color: #00000026;
+
+	border-top: 3px white solid;
+    border-bottom: 3px white solid;
+    border-radius: 8px;
+}
+
+.orders-list > div::-webkit-scrollbar {
+	width: 12px;
+}
+
+.orders-list > div div {
+	margin-right: 7px;
+}
+
+.orders-list > div div:last-child {
+	margin-right: 0;
+}
+
+.order-big {
+	width: calc((100% - 22px) / 3 );
+	height: 100%;
+
+	background-color: #bbffb4;
+
+	border-radius: 34px;
+
+	display: inline-block;
+	-webkit-user-drag: none;
+}
+
+.order-big > div {
+	height: calc(100% - 20px);
+	display: flex;
+	flex-direction: column;
+}
+
+.order-header {
+	height: 60px;
+
+	display: block;
+	text-align: center;
+	line-height: 60px;
+}
+
+.button-more {
+	width: 100%;
+	height: 50px;
+
+	display: block;
+	text-align: center;
+	line-height: 50px;
+
+	border-radius: 36px;
+	background-color: #00000008;
+
+	user-select: none;
+}
+
+.button-more:hover {
+	background: #0000002b;
+	border-radius: 36px;
+	transition: 0.2s;
+}
+
+.order-font {
+	color: #4b4b4b;
+	font-size: 17px;
+	font-weight: 400;
+
+	font-family: 'Cabin', sans-serif;
+}
+
+.order-items-list {
+	list-style-type: none;
+
+	padding: 10px;
+}
+
+
 /* ----------------/AccountPage/---------------- */
+
+/* ----------------OrdersPage---------------- */
+
+.orders-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-top: 20px;
+	width: 100%;
+	min-height: 100%;
+}
+
+.orders-content {
+	width: 450px;
+	min-height: 700px;
+	max-height: 2000px;
+
+	padding: 10px;
+
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	border-radius: 36px;
+	background-color: white;
+}
+
+.order {
+	width: 100%;
+	height: 50px;
+
+	margin: 5px;
+	
+	font-family: 'Arial';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 50px;
+
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+
+	color: #0000009e;
+	text-decoration: none;
+	-webkit-user-drag: none;
+	user-select: none;
+}
+
+.order:hover {
+	background: #00000012;
+	border-radius: 36px;
+	transition: 0.2s;
+}
+
+.orders-header {
+	font-family: 'Nunito';
+	font-size: 24px;
+
+	color: #0000009c;
+	margin: 10px;
+}
+
+/* ----------------/OrdersPage/---------------- */

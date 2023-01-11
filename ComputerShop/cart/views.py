@@ -26,7 +26,7 @@ class OrderListView(ContextMixin, ListView):
     extra_context = {'title': 'Orders'}
 
     def get_queryset(self):
-        return self.request.user.orders.all().prefetch_related('products')
+        return self.request.user.orders.filter(is_closed=False).prefetch_related('products')
 
 
 class OrderView(ContextMixin, DetailView):

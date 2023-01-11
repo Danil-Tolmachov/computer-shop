@@ -1,5 +1,7 @@
 from django import forms
 
+from auth_app.models import ShopUser
+
 
 class ChangeUserPasswordForm(forms.Form):
     email = forms.EmailField()
@@ -19,3 +21,8 @@ class ChangeUserPasswordForm(forms.Form):
             attrs={'class': 'field', 'placeholder': 'New password'}
         )
 
+class ChangeUserForm(forms.ModelForm):
+    
+    class Meta:
+        model = ShopUser
+        exclude = ('email', 'password')

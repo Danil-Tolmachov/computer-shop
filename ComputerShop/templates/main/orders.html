@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block main %}
-{% for order in orders %}
-<div>
-    <hr>
-    <p>{{ order.id }}</p>
-    <p>{{ order.products }}</p>
-    <p>{{ order.get_summary }}</p>
+<div class="orders-container">
+    <div class="orders-content">
+        <h5 class="orders-header">Orders:</h5>
+        {% for order in orders %}
+            <a href="{% url 'order' order.url %}" class="link order">Order № <strong>{{order.id}}</strong></a>
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
 {% endblock %}
