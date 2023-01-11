@@ -2,9 +2,17 @@
 {% load static %}
 
 {% block main %}
-<div>
-    <p>{{ order.id }}</p>
-    <p>{{ order.products.all }}</p>
-    <p>{{ order.get_summary }}</p>
+<div class="orders-container">
+    <div class="orders-content">
+
+        {% for order in orders %}
+            <div class="order">
+                <p>{{ order.id }}</p>
+                <p>{{ order.products.all }}</p>
+                <p>{{ order.get_summary }}</p>
+            </div>
+        {% endfor %}
+
+    </div>
 </div>
 {% endblock %}

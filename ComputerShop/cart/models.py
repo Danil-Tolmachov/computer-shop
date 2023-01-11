@@ -1,9 +1,11 @@
+from django.utils.http import urlsafe_base64_encode
 from django.contrib import admin
 from django.db import models
 from django.db.models import ManyToManyField, CharField, ForeignKey, \
     BooleanField, IntegerField, JSONField, \
     ImageField, TextField, DateTimeField, QuerySet
 from django.utils import timezone
+from django.utils.encoding import force_bytes
 
 
 class Order(models.Model):
@@ -12,6 +14,7 @@ class Order(models.Model):
     ISSUED_TO_THE_CARRIER = 'ISSUED TO THE CARRIER'
     SHIPPED = 'Shipped'
     FINISHED = 'Finished'
+    CANCELED = 'Canceled'
 
     STATUS_CHOICE = (
         (SUBMITTED, 'Submitted'),
@@ -19,6 +22,7 @@ class Order(models.Model):
         (ISSUED_TO_THE_CARRIER, 'Issued to the carrier'),
         (SHIPPED, 'Shipped'),
         (FINISHED, 'Finished'),
+        (CANCELED, 'Canceled'),
     )
 
     url = CharField(max_length=255)
@@ -36,6 +40,12 @@ class Order(models.Model):
     def __str__(self):
         return str(self.pk)
 
+    def encoded(self):
+        return urlsafe_base64_encode(force_bytes(self.pk))
+
+    def get_sum(self):
+        return sum(map(lambda x: x.get_summary(), self.products.all()))
+
     @admin.display(description='Products count')
     def get_products_count(self) -> int:
         return self.products.count()
@@ -50,7 +60,7 @@ class Order(models.Model):
     # Get cart items summary price
     @admin.display(description='Summary')
     def get_summary(self) -> int:
-        return sum(map(lambda x: x.get_summary(), self.products.all()))
+        return self.get_sum()
 
 
 class Category(models.Model):

@@ -6,7 +6,7 @@ urlpatterns = [
     #  Views
     path('cart/', CartView.as_view(), name='cart'),
     path('orders/', OrderListView.as_view(), name='orders'),
-    path('orders/<slug:order_url>', OrderView.as_view(), name='order'),
+    path('order/<slug:order_url>', OrderView.as_view(), name='order'),
 
     #  Cart items operations
     path('cart-delete/', CartItemDelete.as_view(), name='del_from_cart'),

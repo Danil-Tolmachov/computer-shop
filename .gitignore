@@ -1,2 +1,6 @@
 /.env
 /ComputerShop/cache/
+/venv/
+/.idea/
+/.vscode/
+/data/

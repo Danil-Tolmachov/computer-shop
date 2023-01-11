@@ -1,0 +1,17 @@
+<div style="height: 90%;">
+    <dl>
+        <form id="userform" method="POST" action="{% url 'change_user' %}">
+            {% csrf_token %}
+            {% for name, field in account_fields.items %}
+                <dt>{{ name }}:</dt>
+                <dd is_changeable="{{ field.is_changeable }}" name="{{ name }}">
+                    {{ field.value }}
+                </dd>
+            {% endfor %}
+        </form>
+    </dl>
+</div>
+<div class="account-buttons">
+    <div class="button-container"><button id="change-button">Change something</button></div>
+    <div class="button-container"><button type="submit" form="userform">Submit changes</button></div>
+</div>
