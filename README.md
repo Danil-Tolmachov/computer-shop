@@ -5,7 +5,7 @@
 ![3](https://user-images.githubusercontent.com/59608495/202649953-e79bdaec-5a43-451e-8049-ecb60106974d.PNG)
 
 # Overview:
-Note: **Don't use it for production. This pet-project and may be too raw to use!**
+Note: **Don't use it for production. This is pet-project and may be too raw for using!**
 
 Stack:
 - Python 3.10
