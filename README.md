@@ -22,9 +22,9 @@ Some features:
 - Product categories
 
 To do:
-- Product filters and search
+- Product filters
 - Comments and reviews system
-- User profile and order tracking pages
+- Order tracking page
 
 # Installation and setup
 
