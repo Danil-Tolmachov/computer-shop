@@ -5,7 +5,8 @@
 <div class="main-block">
 
 
-    <div class="products-inner" style="border-top-left-radius: 12px;">
+    <div class="products-inner">
+        {% csrf_token %}
         <div class="cart-title">
             Cart
         </div>
@@ -13,7 +14,11 @@
         {% for product in cart %}
         <div class="cart-product">
             <div class="image-cart-container">
-                <a href="{% url 'product' product.pk %}" class="link"><img src="{% static 'core\images\2.png' %}" class="product-cart-img"></a>
+                {% with product_obj=product.product %}
+                {% if product_obj.photo.0 %} 
+                <a href="{% url 'product' product_obj.pk %}" class="link"><img src="{{ product_obj.photo.0.image.url }}" class="product-img"></a>
+                {% endif %}
+                {% endwith %}
             </div>
             <div class="product-cart-info">
                 <div class="product-cart-info-inner">
@@ -22,14 +27,14 @@
                     <p class="in-stock in-stock-cart">In Stock</p>
                     <p class="price-available-cart price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.product.price }}</p>
                     {% else %}
-                    <p class="out-of-stock">Out of stock</p>
-                    <p class="price-cart"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.product.price }}</p>
+                    <p class="out-of-stock  in-stock-cart">Out of stock</p>
+                    <p class="price-available-cart price"><span><i class="fa-solid fa-dollar-sign"></i></span>{{ product.product.price }}</p>
                     {% endif %}
                 </div>
             </div>
             <div class="cart-product-interact">
-                <input class="product-cart-count" type="number" value="{{ product.product_count }}">
-                <button class="fa-solid fa-xmark del-item" id="{{ product.product.pk }}"></button>
+                <input class="product-cart-count" type="number" value="{{ product.product_count }}" id="{{ product.product.pk }}">
+                <button class="fa-solid fa-xmark del-item-cart cart-page" id="{{ product.product.pk }}"></button>
             </div>
         </div>
         {% endfor %}
@@ -41,9 +46,18 @@
         {% endif %}
         <div class="checkout-detail">
             {% if cart %}
-            <a href="{% url 'submit-order' %}">Submit order</a>
+            <div class='button-container'>
+                <p class="text cart-summary" id="summary">Summary: ${{ user.get_cart_summary }}</p>
+            </div>
+            <div class='button-container'>
+                <a href="{% url 'submit-order' %}" class="link cart-button">Submit order</a>
+            </div>
             {% endif %}
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block import %}
+<script type="text/javascript" src="{% static 'core/js/cart_scripts.js' %}"></script>
 {% endblock %}

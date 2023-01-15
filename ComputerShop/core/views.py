@@ -3,6 +3,7 @@ import json
 from django.db.models import Prefetch, Case, When
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from core.prefetch import prefetch_photos
 from core.queries import filter_query_by_name_content, get_products_by_category
 
 from cart.models import Product, Category, ProductImage
@@ -19,10 +20,9 @@ class Index(Paginator, ListView):
     def get_queryset(self):
         query = Product.objects.filter(is_visible=True)
 
-        # Prefectching photos
-        prefetch = Prefetch('images', queryset=self.product_image_model.objects.distinct(), to_attr='photo')
+        # Prefectching
         query = query.select_related('category').order_by('-pk')
-        query = query.prefetch_related(prefetch)
+        query = prefetch_photos(query)
 
         return query
 
@@ -55,10 +55,9 @@ class Catalog(Paginator, ListView):
             content = self.request.GET['search']
             query = filter_query_by_name_content(query, content)
 
-        # Prefetching photos
-        prefetch = Prefetch('images', queryset=self.product_image_model.objects.distinct(), to_attr='photo')
+        # Prefetching
         query = query.select_related('category').order_by('-pk')
-        query = query.prefetch_related(prefetch)
+        query = prefetch_photos(query)
 
         return query
 

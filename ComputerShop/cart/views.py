@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView
+from core.prefetch import prefetch_photos
 
 from cart.models import Product, ProductItem, Order
 from cart.utils import make_order, get_new_order_url
@@ -16,7 +17,13 @@ class CartView(LoginRequiredMixin, ContextMixin, DetailView):
     extra_context = {'title': 'Cart'}
 
     def get_object(self, queryset=None):
-        return self.request.user.cart.all().prefetch_related('product')
+        query = self.request.user.cart.all()
+
+        # Prefetching
+        query = query.prefetch_related('product')
+        query = prefetch_photos(query, nested_prefetch='product__')
+        
+        return query
 
 
 class OrderListView(ContextMixin, ListView):
@@ -71,6 +78,24 @@ class CartItemAdd(View):
             }
             return JsonResponse(data=data, status=304)
 
+class CartItemSet(View):
+
+    @csrf_exempt
+    def post(self, request):
+        item_id = int(request.POST['id'])
+        item_count = int(request.POST['count'])
+        product_obj = Product.objects.get(pk=item_id)
+
+        user_cart = request.user.cart
+
+        user_product = user_cart.filter(product=product_obj)
+        user_product.update(product_count=item_count)
+
+        data = {
+            'summary': request.user.get_cart_summary()
+        }
+        return JsonResponse(data=data, status=200)
+
 
 class CartItemDelete(View):
 
@@ -83,7 +108,7 @@ class CartItemDelete(View):
             product_obj = Product.objects.get(pk=item_id)
         else:
             data = {
-                'message': 'This product is not in your cart'
+                'error': 'This product is not in your cart'
             }
             return JsonResponse(data=data, status=500)
 

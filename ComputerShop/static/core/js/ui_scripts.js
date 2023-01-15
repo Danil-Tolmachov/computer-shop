@@ -69,7 +69,7 @@ $(document).ready(function () {
     
     
           $.ajax({
-              url: 'cart-add/',
+              url: 'cart-set/',
               type: 'post',
               data: {
                   'id': id,

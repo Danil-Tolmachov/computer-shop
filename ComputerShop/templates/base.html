@@ -30,7 +30,7 @@
         <ul id="nav">
             {% cache 60 categories %}
             <div class="dropdown" id="catalog">
-                <li ><a id="catalog-btn" style="transition: 0.4s;">Catalog</a></li>
+                <li ><a id="catalog-btn" style="transition: 0.4s;" href={% url 'catalog' 'all'%}>Catalog</a></li>
                 <div class="space" style="height: 20px;"></div>
                 <div class="dropdown-content cat" id="dropdown-cont">
                     {% for cat in categories %}

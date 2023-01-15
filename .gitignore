@@ -1,6 +1,16 @@
 /.env
 /ComputerShop/cache/
+/ComputerShop/auth_app/__pycache__
+/ComputerShop/cart/__pycache__
+/ComputerShop/core/__pycache__
+/ComputerShop/restapi/__pycache__
+/ComputerShop/ComputerShop/__pycache__
+/ComputerShop/auth_app/migrations
+/ComputerShop/cart/migrations
+/ComputerShop/core/migrations
+/ComputerShop/restapi/migrations
 /venv/
 /.idea/
 /.vscode/
 /data/
+ComputerShop/media/

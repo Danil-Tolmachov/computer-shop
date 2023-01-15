@@ -121,6 +121,11 @@ class ShopUser(AbstractUser):
         self.order.products.add(*request.user.cart.all())
         return self.order
 
+    def get_cart_summary(self):
+        cart = self.cart.all()
+        summary = sum([(item.product.price * item.product_count) for item in cart])
+        return summary
+
     @admin.display(description='Active orders')
     def get_active_orders_count(self):
         return self.orders.filter(is_closed=False).count()

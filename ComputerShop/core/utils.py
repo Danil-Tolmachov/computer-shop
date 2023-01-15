@@ -24,7 +24,7 @@ class ContextMixin:
 
         if user_auth:
             user_cart = user.cart.all()
-            context['user_cart'] = user_cart
+            context['user_cart'] = user_cart.select_related('product')
 
         return context
 
