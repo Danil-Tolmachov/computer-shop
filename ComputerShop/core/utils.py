@@ -1,6 +1,7 @@
 import json
 
 from django.core.cache import cache
+from django.contrib.auth import get_user_model
 
 from cart.models import Category
 

@@ -1,11 +1,17 @@
+import datetime
+import json
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import ManyToManyField, CharField, ForeignKey, \
     BooleanField, IntegerField, JSONField, \
     ImageField, TextField, DateTimeField, QuerySet
 from django.utils import timezone
 from django.utils.encoding import force_bytes
+from django.core.exceptions import ValidationError
+
+from auth_app.utils import get_users_by_ids
 
 
 class Order(models.Model):
@@ -101,6 +107,8 @@ class Product(models.Model):
     available_count = ManyToManyField('Storage', blank=True)
     characteristics = JSONField(null=True, blank=True)
 
+    comments = JSONField(null=True, blank=True, default=dict)
+
     is_visible = BooleanField(default=True)
     is_available = BooleanField(default=False)
 
@@ -109,6 +117,60 @@ class Product(models.Model):
 
     def get_storage_objects(self) -> QuerySet:
         return self.product_item.filter(storage__isnull=False)
+
+
+    def validate_product_comment(self, comment):
+        try:
+            comment['author']
+            comment['content']
+            comment['is_positive']
+        except KeyError:
+            raise ValidationError
+
+    def save_product_comment(self, new_comment):
+
+        try:
+            comments = json.loads(str(self.comments))     
+        except json.JSONDecodeError:
+            comments = []
+
+        comments.append(new_comment)
+
+        self.comments = json.dumps(comments)
+        self.save()
+
+    def add_comment(self, author, content, is_positive):
+
+        new_comment = {
+            'author': author.pk,
+            'content': content,
+            'is_positive': is_positive,
+        }
+
+        self.validate_product_comment(new_comment)
+
+        self.save_product_comment(new_comment)
+
+    @staticmethod
+    def load_comments_authors(comments):
+        user_model = get_user_model()
+        authors = []
+
+        for comment in comments:
+            authors.append(comment['author'])
+        
+        authors_query = get_users_by_ids(authors)
+
+        for comment, author in zip(comments, authors_query):
+            comment['author'] = author
+
+        return comments
+
+    def get_comments(self):
+        comments = json.loads(str(self.comments))
+        comments = self.load_comments_authors(comments)
+        return comments
+
 
     @admin.display(description='Count')
     def get_all_count(self) -> int:

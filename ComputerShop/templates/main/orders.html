@@ -5,9 +5,16 @@
 <div class="orders-container">
     <div class="orders-content">
         <h5 class="orders-header">Orders:</h5>
+        {% if orders %}
         {% for order in orders %}
             <a href="{% url 'order' order.url %}" class="link order">Order № <strong>{{order.id}}</strong></a>
         {% endfor %}
+        {% else %}
+        <div class="nothing">
+            <p class="text">Sorry. There is nothing</p>
+            <i class="fa-solid fa-ban"></i>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

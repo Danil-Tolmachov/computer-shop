@@ -1,5 +1,6 @@
 <div class="orders-list">
     <div style="height: 100%;">
+        {% if active_orders.items %}
         {% for name, order in archive_orders.items %}
         <div class="order-big" style="background-color: #e3e3e3;">
             <div style="padding: 10px;">
@@ -17,5 +18,11 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="nothing">
+            <p class="text">Sorry. There is nothing</p>
+            <i class="fa-solid fa-ban"></i>
+        </div>
+        {% endif %}
     </div>
 </div>

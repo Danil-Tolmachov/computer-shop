@@ -84,6 +84,8 @@ class ProductView(ContextMixin, DetailView):
             self.resents = add_resent_by_cookie(self.request, _object.pk)
             self.cookies_to_set['resents'] = self.resents
 
+        self.comments = _object.get_comments()
+
         return _object
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -97,6 +99,9 @@ class ProductView(ContextMixin, DetailView):
         preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(resents_list)])
         resents_query = Product.objects.filter(pk__in=resents_list).order_by(preserved)
         context['resents'] = resents_query
+
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(self.comments)])
+        context['comments'] = self.comments
 
         context['title'] = Product.objects.only('pk', 'name').get(pk=self.kwargs['product_id']).name
         return context
