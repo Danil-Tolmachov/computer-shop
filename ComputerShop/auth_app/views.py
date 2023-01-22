@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.core.exceptions import SuspiciousOperation
+from django.core.exceptions import SuspiciousOperation, ValidationError
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -18,6 +18,7 @@ from core.forms import LoginUserForm, CreateUserForm
 from core.utils import ContextMixin
 from auth_app.forms import ChangeUserForm, ChangeUserPasswordForm
 from auth_app.models import ShopUser
+from cart.models import Product
 
 
 # Account activation
@@ -231,6 +232,33 @@ class Account(LoginRequiredMixin, ContextMixin, DetailView):
 
         return context
 
+class AddComment(View):
+    product_model = Product
+
+    def get_product(self, id):
+        return self.product_model.objects.get(pk=id)
+
+    def validate_comment(self, content):
+        if content == '':
+            raise ValidationError("You can't post an empty comment")
+
+    def post(self, request):
+        data = request.POST
+        user = request.user
+
+        product_id: int = data['product']
+        content: str = data['content']
+        is_positive: bool = data['is_positive'] == str(1)
+
+        try:
+            self.validate_comment(content)
+        except ValidationError as err:
+            return JsonResponse({'error': err.message}, status=400)
+            
+        product = self.get_product(product_id)
+        product.add_comment(user, content, is_positive)
+
+        return JsonResponse({}, status=200)
 
 def logout_user(request):
     logout(request)

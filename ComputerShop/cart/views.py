@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.datastructures import MultiValueDictKeyError
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views import View
@@ -83,8 +84,12 @@ class CartItemSet(View):
     @csrf_exempt
     def post(self, request):
         item_id = int(request.POST['id'])
-        item_count = int(request.POST['count'])
         product_obj = Product.objects.get(pk=item_id)
+
+        try:
+            item_count = int(request.POST['count'])
+        except MultiValueDictKeyError:
+            item_count = 1
 
         user_cart = request.user.cart
 

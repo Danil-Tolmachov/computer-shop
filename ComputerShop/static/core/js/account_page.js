@@ -10,9 +10,11 @@ $(document).ready( function() {
 
         if (id == 0) {
             $('.account-inner').css('border-bottom-right-radius', '35px');
+            $('.account-inner').css('border-top-right-radius', '35px');
         }
         else {
             $('.account-inner').css('border-bottom-right-radius', '12px');
+            $('.account-inner').css('border-top-right-radius', '12px');
         }
     })
 

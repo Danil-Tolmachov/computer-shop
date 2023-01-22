@@ -57,9 +57,15 @@
                         <div class="detail-specs">
                                 <table width="100%" height="100%" class="spec-table">
                                         <tbody>
+                                                {% if product.characteristics.items %}
                                                 {% for key, value in product.characteristics.items %}
                                                 <tr><td>{{ key }}: </td><td>{{ value }}</td></tr>
                                                 {% endfor %}
+                                                {% else %}
+                                                <div class="nothing" style="margin: 0; height: 115px;">
+                                                    <i class="fa-solid fa-ban"></i>
+                                                </div>
+                                                {% endif %}
                                         </tbody>
                                 </table>
                         </div>
@@ -72,8 +78,27 @@
                 {% block comments %}
                 <div class="comments">
                         <div><p class="text-header">Comments:</p></div>
-                        <div class="comment-author"></div>
-                        <div class="comment-content"></div>
+                        <div style="padding: 10px;">
+                                <div class="comment-create">
+                                        <textarea type="textarea" id="comment-content"></textarea>
+                                        <div class="comment-buttons">
+                                                {% csrf_token %}
+                                                <button class="add-comment" id="{{ product.pk }}">Submit</button>
+                                                <input id='is_positive' type="checkbox" checked="true">
+                                                <label for="is_positive">Do you like it?</label>
+                                        </div>
+                                </div>
+                        </div>
+                        <div style="padding: 10px;">
+                        {% if comments %}
+                        {% for comment in comments reversed %}
+                        <div class="comment {% if comment.is_positive %}positive{% else %}negative{% endif %}">
+                                <p class="comment-author" name="{{ comment.author }}">{{ comment.author }}</p>
+                                <div class="comment-content">{{ comment.content }}</div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        </div>  
                 </div>
                 {% endblock %}
         </div>
@@ -103,15 +128,13 @@
                         <div class="base-container">
                                 <div class="resents-container">
                                         {% for product in resents reversed %}
-                                        <a class="store-with-product" href="{% url 'product' product.pk %}"><img src="">{{ product.name }}</a>
+                                        <a class="store-with-product" href="{% url 'product' product.pk %}">{{ product.name }}</a>
                                         {% endfor %}
                                 </div>
                         </div>
                 </div>
         </div>
 </div>
-<script type="text/javascript" src="{% static 'core/js/carousel.js' %}"></script>
-<script type="text/javascript" src="{% static 'core/js/specs-script.js' %}"></script>
 {% endblock %}
 
 {% block import %}
