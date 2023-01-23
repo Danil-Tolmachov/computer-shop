@@ -133,7 +133,7 @@ class CartItemDelete(View):
         # Delete product from cart
         if product in cart_products:
 
-            user_cart.filter(product=product_obj).delete()
+            user_cart.filter(product=product).delete()
 
         else:
             data = {
