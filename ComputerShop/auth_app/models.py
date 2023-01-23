@@ -17,7 +17,9 @@ from auth_app.utils import send_verify_email
 class ShopUserManager(BaseUserManager):
     use_in_migrations = True
 
+
     def _create_user(self, email: str, password: str, **extra_fields):
+
         if not email:
             raise ValueError('The given email must be set')
 
@@ -27,11 +29,15 @@ class ShopUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
 
+        # Email verification
         if not user.is_superuser:
             send_verify_email(user, email)
+
         return user
 
+
     def create_user(self, email: str, password: str = None, **extra_fields):
+
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
@@ -40,7 +46,9 @@ class ShopUserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
     def create_superuser(self, email: str, password: str, **extra_fields):
+
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -68,8 +76,7 @@ class ShopUser(AbstractUser):
     cart = ManyToManyField(ProductItem, related_name='user', blank=True)
     orders = ManyToManyField(Order, blank=True, related_name='shopuser')
 
-    # Uses json.dump() and json.loads() to manipulate with resent objects
-    resents = models.CharField(max_length=200, blank=True)
+    resents = models.CharField(max_length=200, blank=True) # JSON string
 
     notifications = JSONField(default=dict, blank=True)
     date_joined = DateTimeField(default=timezone.now)
@@ -81,24 +88,32 @@ class ShopUser(AbstractUser):
 
     objects = ShopUserManager()
 
+
     def __str__(self):
         return self.email
+
 
     def change_password(self, old_password, new_password):
 
         if old_password == new_password:
             return False
 
+        # Validate new password
         try:
             validate_password(password=new_password)
         except ValidationError:
             return False
 
+        # Save new password
         self.set_password(new_password)
         self.save()
 
-    #  add resently viewed product and get resents list with it
+
     def get_added_resents(self, product):
+        """
+            Adds resently viewed product and return updated resents list
+        """
+
         try:
             resents = json.loads(str(self.resents))
         except JSONDecodeError:
@@ -112,19 +127,33 @@ class ShopUser(AbstractUser):
 
         return json.dumps(resents[-10:])
 
+
     def get_resents(self):
         return json.loads(str(self.resents))
 
-    #  Creates Order object from user's actual cart
+
     def get_order(self, request, order_url: str):
+        """
+            Creates Order object from user's actual cart
+        """
+
+        products = request.user.cart.all()
         self.order = Order.objects.create(url=order_url)
-        self.order.products.add(*request.user.cart.all())
+        self.order.products.add(*products)
+
         return self.order
 
+
     def get_cart_summary(self):
+        """
+            Returns price of all items of the current user cart
+        """
+
         cart = self.cart.all()
         summary = sum([(item.product.price * item.product_count) for item in cart])
+
         return summary
+
 
     @admin.display(description='Active orders')
     def get_active_orders_count(self):

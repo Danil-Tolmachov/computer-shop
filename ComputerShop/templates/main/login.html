@@ -4,7 +4,7 @@
 {% block main %}
 <div class="login-container">
     <div class="login-content">
-        <label class="text">Login</label>
+        <label class="text">{{ title }}</label>
         <form method="post" class="form">
             {% csrf_token %}
             <div class="form-error">{{ form.non_field_errors }}</div>
@@ -14,7 +14,7 @@
             {% endfor %}
             <button type="submit" class="reg-button text">Submit</button>
             {% if title != 'Password Change' %}
-            <a href="{% url 'change_password'%}" class=" forgot-text">forgot your password?</a>
+            <a href="{% url 'forgot_password'%}" class=" forgot-text">forgot your password?</a>
             {% endif %}
         </form>
     </div>

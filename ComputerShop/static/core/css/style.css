@@ -467,16 +467,6 @@ nav li input:focus {
 	border-radius: 12px;
 }
 
-.filters-border-triggered {
-	margin-right: 0.15%;
-
-	width: 25.35%;
-
-	border-radius: 12px;
-	transition: 0.2s;
-}
-
-
 .products {
 	float: right;
 

@@ -1,7 +1,5 @@
 from django import forms
 
-from auth_app.models import ShopUser
-
 
 class ChangeUserPasswordForm(forms.Form):
     email = forms.EmailField()
@@ -21,8 +19,34 @@ class ChangeUserPasswordForm(forms.Form):
             attrs={'class': 'field', 'placeholder': 'New password'}
         )
 
-class ChangeUserForm(forms.ModelForm):
+
+class RecoverPasswordForm(forms.Form):
+    password1 = forms.CharField(max_length=255)
+    password2 = forms.CharField(max_length=255)
+
+    def __init__(self, *args, **kwargs):
+        super(RecoverPasswordForm, self).__init__(*args, **kwargs)
+
+        self.fields['password1'].widget = forms.PasswordInput(
+            attrs={'class': 'field', 'placeholder': 'New password'}
+        )
+        self.fields['password2'].widget = forms.PasswordInput(
+            attrs={'class': 'field', 'placeholder': 'New password confirmation'}
+        )
     
     class Meta:
-        model = ShopUser
-        exclude = ('email', 'password')
+        fields = ('password1', 'password2')
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField()
+
+    def __init__(self, *args, **kwargs):
+        super(EmailForm, self).__init__(*args, **kwargs)
+
+        self.fields['email'].widget = forms.EmailInput(
+            attrs={'class': 'field', 'placeholder': 'Email address'}
+        )
+    
+    class Meta:
+        fields = ('email',)

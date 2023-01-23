@@ -26,6 +26,7 @@ class LoginUserForm(AuthenticationForm):
 class CreateUserForm(UserCreationForm):
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
+
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
 
@@ -37,6 +38,7 @@ class CreateUserForm(UserCreationForm):
             'class': 'field',
             'placeholder': 'Password Confirmation',
         })
+
 
     class Meta:
         model = ShopUser

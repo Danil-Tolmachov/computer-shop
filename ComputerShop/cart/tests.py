@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from cart.models import Product
-from register.models import ShopUser
+from auth_app.models import ShopUser
 
 
 class OrderTest(TestCase):
@@ -16,8 +16,10 @@ class OrderTest(TestCase):
         'address': 'Kryshatik, 132',
     }
 
+
     @classmethod
     def setUpTestData(cls):
+
         # Users
         ShopUser.objects.create_user(**cls.UserForm)
 
@@ -38,7 +40,9 @@ class OrderTest(TestCase):
         Product.objects.create(name='GTX 1060', price=200, is_available=True)
         Product.objects.create(name='GTX 1080', price=300)
 
+
     def test_users_and_carts_addition_after_delete(self):
+
         ShopUser.objects.get(pk=2).delete()
         ShopUser.objects.get(pk=4).delete()
 
@@ -49,6 +53,7 @@ class OrderTest(TestCase):
         self.user2 = ShopUser.objects.create_user(**OrderTest.UserForm)
 
         self.assertEqual(5, ShopUser.objects.count())
+
 
     def test_order_creation(self):
 

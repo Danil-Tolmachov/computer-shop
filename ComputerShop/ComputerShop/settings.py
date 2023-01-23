@@ -33,6 +33,9 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
+DOMAIN = "127.0.0.1:8000"
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,10 +49,6 @@ INSTALLED_APPS = [
     'core',
     'cart',
     'auth_app',
-    #   Rest
-    'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
     # packages
     'debug_toolbar',
     'captcha',
@@ -86,6 +85,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ComputerShop.wsgi.application'
 
+
 #  User system
 
 AUTH_USER_MODEL = 'auth_app.ShopUser'
@@ -99,6 +99,7 @@ LOGOUT_REDIRECT_URL = "/"
 DATABASES = {
     'default': env.db()
 }
+
 
 # Email Verification
 
@@ -115,6 +116,7 @@ EMAIL_HOST_PASSWORD = env('SMTP_PASS')
 RECAPTCHA_PUBLIC_KEY = env('CAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = env('CAPTCHA_PRIVATE_KEY')
 RECAPTCHA_DOMAIN = 'www.recaptcha.net'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -160,30 +162,14 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Iternal IPs
+
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
     # ...
 ]
-
-# Rest framework
-
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ),
-
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser',
-        'rest_framework.permissions.AllowAny',
-        'restapi.permissions.IsAdminOrReadOnly',
-    ),
-
-}
 
 # Caches
 
