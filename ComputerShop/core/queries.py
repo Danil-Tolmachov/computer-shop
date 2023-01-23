@@ -7,6 +7,7 @@ def string_to_category(category_model, category: str = None):
 
     try:
         category = category_model.objects.get(category_slug=category)
+
     except ObjectDoesNotExist:
         raise Http404
 
@@ -27,17 +28,17 @@ def get_products_by_category(category_model, product_model, category: str = None
     """
 
     if category is not None:
+
         category: category_model = string_to_category(category_model, category)
 
     else:
+
         try:
             category = category_model.objects.first()
+
         except ObjectDoesNotExist:
             raise Http404
-        
 
-    # if not isinstance(category, category_model):
-    #     raise ValueError('Invalid category object')
 
     return product_model.objects.filter(category=category)
 
@@ -48,3 +49,4 @@ def filter_query_by_name_content(query: QuerySet, content: str) -> QuerySet:
     """
 
     return query.filter(name__icontains=content)
+    

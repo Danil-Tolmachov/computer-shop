@@ -40,7 +40,7 @@ $(document).ready(function(){
 					addClass(elem[i], classToAdd);
 
 					products.style.borderTopLeftRadius = '12px';
-					products.style.transition = '0.1s';
+					products.style.transition = '0.05s';
 
 					if (products.clientHeight = 700) {
 						products.style.borderBottomLeftRadius = '12px';
@@ -49,7 +49,7 @@ $(document).ready(function(){
 			} else {
 				delClass(elem[i], classToAdd);
 				products.style.borderTopLeftRadius = '0px';
-				products.style.borderBottomLeftRadius = '30px';
+				products.style.borderBottomLeftRadius = '12px';
 			}
 			}
 		}

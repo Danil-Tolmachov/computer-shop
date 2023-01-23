@@ -16,12 +16,10 @@ class BaseValidator(ABC):
         pass
 
 
-
 class EmailValidator(BaseValidator):
 
     @staticmethod
     def validate(request, password, **fields) -> bool:
-
         old_email = fields['old_email']
         new_email1 = fields['new_email1']
         new_email2 = fields['new_email2']
@@ -52,7 +50,6 @@ class PasswordValidator(BaseValidator):
 
     @staticmethod
     def validate(request, password, **fields) -> bool:
-        
         email = request.user.email
         new_password1 = fields['new_password1']
         new_password2 = fields['new_password2']
@@ -73,3 +70,4 @@ class PasswordValidator(BaseValidator):
             validate_password(password=new_password1)
         except ValidationError:
             raise SuspiciousOperation('You shoud use stronger password')
+            

@@ -4,6 +4,7 @@ from cart.models import Order, Category, Product, Storage, ProductImage, Product
 
 
 class OrderAdmin(admin.ModelAdmin):
+    
     list_display = ('pk', 'get_customer_name', 'date_created',
                     'status', 'get_products_count', 'get_summary',
                     'is_paid', 'is_closed'
@@ -11,12 +12,14 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
+
     list_display = ('pk', 'category_name', 'category_slug',
                     'get_product_count'
                     )
 
 
 class ProductAdmin(admin.ModelAdmin):
+
     list_display = ('pk', 'name', 'category',
                     'price', 'get_all_count',
                     'characteristics', 'is_visible', 'is_available'
@@ -24,22 +27,28 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'is_visible', 'is_available')
     actions = ['products_deactivate', 'products_activate']
 
+
     @admin.action(description='Deactivate products')
     def products_deactivate(modeladmin, request, queryset) -> None:
+
         queryset.update(is_visible=0)
+
 
     @admin.action(description='Activate products')
     def products_activate(modeladmin, request, queryset) -> None:
+
         queryset.update(is_visible=1)
 
 
 class ProductItemAdmin(admin.ModelAdmin):
+
     list_display = ('product', 'product_count', 'get_source',
                     'get_related_id'
                     )
 
 
 class StorageAdmin(admin.ModelAdmin):
+    
     list_display = ('pk', '__str__', 'get_positions_count')
 
 

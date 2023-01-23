@@ -1,20 +1,18 @@
 from django.urls import path, include
-from django.views.decorators.cache import cache_page
 
-from core.views import Index, about_us, Catalog, ProductView
+from core.views import Account, Index, about_us, Catalog, ProductView
 
 urlpatterns = [
     #  Include apps
     path('', include('cart.urls')),
     path('', include('auth_app.urls')),
 
-    #  Api
-    path('api/', include('restapi.urls')),
-
-    #  Views
+    #  Pages
     path('', Index.as_view(), name='index'),
     path('catalog/<slug:category>/', Catalog.as_view(), name='catalog'),
     path('product/<int:product_id>/', ProductView.as_view(), name='product'),
+    path('account/', Account.as_view(), name='account'),
+
     path('about-us/', about_us, name='about_us'),
 
 ]
