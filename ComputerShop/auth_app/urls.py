@@ -4,8 +4,8 @@ from auth_app.views import Activation, AddComment, ChangeEmail, ForgottenPasswor
 
 urlpatterns = [
     # Authentication system urls
-    path('login/', LoginUser.as_view(), name='site-login'),
-    path('logout/', logout_user, name='site-logout'),
+    path('login/', LoginUser.as_view(), name='user-login'),
+    path('logout/', logout_user, name='user-logout'),
 
     path('register/', CreateUser.as_view(), name='register'),
     path('activation/<slug:uidb64>/<slug:token>/', Activation.as_view(), name='activate'),

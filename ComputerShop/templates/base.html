@@ -57,10 +57,10 @@
                     <a href="{% url 'orders' %}">Orders</a>
                     <hr>
                     {% if not auth %}
-                    <a href="{% url 'site-login' %}">Login</a>
+                    <a href="{% url 'user-login' %}">Login</a>
                     <a href="{% url 'register' %}">Sign on</a>
                     {% else %}
-                    <a href="{% url 'site-logout' %}">Logout</a>
+                    <a href="{% url 'user-logout' %}">Logout</a>
                     {% endif%}
                 </div>
             </div>

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
+from django.urls import reverse_lazy
 import environ
 from pathlib import Path
 
@@ -90,8 +91,9 @@ WSGI_APPLICATION = 'ComputerShop.wsgi.application'
 
 AUTH_USER_MODEL = 'auth_app.ShopUser'
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = 'user-login'
+LOGIN_REDIRECT_URL = 'user-login'
+LOGOUT_REDIRECT_URL = 'index'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -171,7 +173,7 @@ INTERNAL_IPS = [
     # ...
 ]
 
-# Caches
+# Cache
 
 CACHES = {
     'default': {

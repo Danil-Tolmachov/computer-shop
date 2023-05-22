@@ -1,7 +1,9 @@
+from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Case, When
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from core.prefetch import prefetch_photos
 from core.queries import filter_query_by_name_content, get_products_by_category
@@ -142,6 +144,9 @@ class Account(LoginRequiredMixin, ContextMixin, DetailView):
     template_name = 'main/account/account.html'
     context_object_name = 'account'
     extra_context = {'title': 'Account'}
+
+    def __init__(self, **kwargs: Any) -> None:
+        return super().__init__(**kwargs)
 
 
     def get_object(self, queryset=None):

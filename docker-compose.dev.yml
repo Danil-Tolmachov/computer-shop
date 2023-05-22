@@ -7,6 +7,19 @@ services:
     restart: always
     ports:
       - '32700:5432'
-    env_file: .env
+    env_file:
+      - .env
     volumes:
       - ./data:/var/lib/postgres/data
+
+  app:
+    build: .\ComputerShop\
+    restart: always
+    command: >
+            sh -c "python manage.py makemigrations core auth_app cart &&
+                   python manage.py migrate
+                   python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    env_file:
+      - .env

@@ -29,7 +29,7 @@ class CartView(LoginRequiredMixin, ContextMixin, DetailView):
         return query
 
 
-class OrderListView(ContextMixin, ListView):
+class OrderListView(LoginRequiredMixin, ContextMixin, ListView):
     model = Order
     template_name = "main/orders.html"
     context_object_name = 'orders'
@@ -40,7 +40,7 @@ class OrderListView(ContextMixin, ListView):
         return _active_orders.prefetch_related('products')
 
 
-class OrderView(ContextMixin, DetailView):
+class OrderView(LoginRequiredMixin, ContextMixin, DetailView):
     model = Order
     template_name = "main/order.html"
     context_object_name = 'order'

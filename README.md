@@ -31,9 +31,9 @@ To do:
 **1. Clone repository and install requirements**
 ```sh 
 git clone https://github.com/Danil-Tolmachov/ComputerShop/
-pip install -r requirements.txt
+pip install -r ComputerShop\requirements.txt
 ```
-**2. Create .env and setup variables**
+**2. Setup environment variables**
 ```sh
 SECRET_KEY=...
 DEBUG=TRUE
